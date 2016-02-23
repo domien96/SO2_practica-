@@ -4,37 +4,48 @@ import alarm.Alarm;
 import alarm.AlarmListener;
 import alarm.Hospital;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by domien on 19/02/2016.
  */
 public class EmergencyCallCenter {
-
-    private String number;
+    String number;
+    int indexlastCalledHospital;
 
     public EmergencyCallCenter(String number) {
         this.number = number;
     }
 
     public void incomingCall(String alarm, String location) {
-        Whiteboard whiteboard = Whiteboard.getWhiteboard();
-        Set<AlarmListener> set = whiteboard.getAlarmListeners(alarm);
+        System.out.println("Incoming call " + number);
+        Set<AlarmListener> listeners = Whiteboard.getWhiteboard().getAlarmListeners(alarm);
+        Alarm al = new Alarm(alarm, location);
 
-        boolean hospitalNotified = false;
+        // Variabelen voor Speciale Regeling voor ziekenhuizen
+        List<AlarmListener> hospitals = new ArrayList<>();
 
-        if (set == null) {
-            throw new IllegalStateException("Type: " + alarm + " not registered at an AlarmListener");
-        } else {
-            for (AlarmListener listener : set) {
-                if (listener instanceof Hospital && !hospitalNotified) {
-                    hospitalNotified = true;
-                    listener.alarm(new Alarm(alarm, location));
-                } else {
-                    listener.alarm(new Alarm(alarm, location));
-                }
+        for (AlarmListener allist : listeners) {
+            if(allist instanceof Hospital) {
+                hospitals.add(allist);
+            } else {
+                allist.alarm(al);
             }
         }
-    }
 
+
+        if (hospitals.size() > 0) {
+            //Speciale Regeling voor ziekenhuizen
+            if(indexlastCalledHospital >= hospitals.size())
+                indexlastCalledHospital = 0;
+            hospitals.get(indexlastCalledHospital++).alarm(al);
+            // !!! mogelijks veranderende volgorde listeners
+        }
+
+        //newline
+        System.out.println();
+    }
 }

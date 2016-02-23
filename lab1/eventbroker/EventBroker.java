@@ -49,8 +49,6 @@ final public class EventBroker {
 
     // Zelf toegevoegd
 
-
-
     // Niet-generieke luisteraars
     protected Map<String, Set<EventListener>> typedlisteners = new HashMap<>();
 
