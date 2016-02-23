@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by domien on 19/02/2016.
  */
-public class Whiteboard {
+final public class Whiteboard {
     // Volgens de gegeven figuur zou ik een set moeten geberuiken, maar met een Set kan ik moeilijk de relatie tussen listeners en types vastleggen.
     //Set<AlarmListener> alarmListeners = new HashSet<>();
     // Hierdoor gebruiken we een Mapping.
