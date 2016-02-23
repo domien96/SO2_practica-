@@ -16,7 +16,7 @@ public class Whiteboard {
     // Hierdoor gebruiken we een Mapping.
     private Map<String, Set<AlarmListener>> alarmListeners = new HashMap<>();
 
-    private static Whiteboard singleton = new Whiteboard();
+    private final static Whiteboard singleton = new Whiteboard();
 
     private Whiteboard() {}
 
