@@ -1,11 +1,10 @@
 
-package order;
+package lab2.order;
 
 
-import eventbroker.Event;
-import eventbroker.EventBroker;
-import eventbroker.EventListener;
-
+import lab1.eventbroker.Event;
+import lab1.eventbroker.EventBroker;
+import lab1.eventbroker.EventListener;
 
 public class OrderProcessor implements EventListener {
 
@@ -16,7 +15,7 @@ public class OrderProcessor implements EventListener {
     }
     
     @Override
-    public void handleEvent(Event e) {  
+    public void handleEvent(Event e) {
         OrderEvent order = (OrderEvent) e;
         processOrder(order);
     }

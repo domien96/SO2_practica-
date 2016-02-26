@@ -1,7 +1,7 @@
 
-package order;
+package lab2.order;
 
-import eventbroker.EventBroker;
+import lab1.eventbroker.EventBroker;
 import java.util.HashSet;
 import java.util.Set;
 

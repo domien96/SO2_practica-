@@ -1,8 +1,8 @@
 
-package main;
+package lab2.main;
 
-import order.Customer;
-import order.OrderProcessor;
+import lab2.order.Customer;
+import lab2.order.OrderProcessor;
 
 
 public class Main {
