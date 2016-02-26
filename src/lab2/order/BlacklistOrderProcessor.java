@@ -4,7 +4,6 @@ package lab2.order;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class BlacklistOrderProcessor extends OrderProcessor {
 
     private Set<String> blacklist;
