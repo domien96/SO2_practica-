@@ -1,10 +1,10 @@
 
-package order;
-
-import eventbroker.EventPublisher;
+package lab2.order;
 
 
-public class Customer extends EventPublisher{
+import lab1.eventbroker.EventPublisher;
+
+public class Customer extends EventPublisher {
 
     private String name;
     

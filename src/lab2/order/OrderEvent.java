@@ -1,8 +1,8 @@
 
-package order;
+package lab2.order;
 
-import eventbroker.Event;
 
+import lab1.eventbroker.Event;
 
 public class OrderEvent extends Event {
 

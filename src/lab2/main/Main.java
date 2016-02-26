@@ -1,9 +1,8 @@
 
-package main;
+package lab2.main;
 
-import order.Customer;
-import order.OrderProcessor;
-
+import lab2.order.Customer;
+import lab2.order.OrderProcessor;
 
 public class Main {
     
@@ -13,7 +12,7 @@ public class Main {
         
         String[] names = new String[]{"Jan", "Piet", "Joris", "Corneel"};
         
-        OrderProcessor orderProcessor = new OrderProcessor();  
+        OrderProcessor orderProcessor = new OrderProcessor();
 
         for(String name : names){
             Customer customer = new Customer(name);
