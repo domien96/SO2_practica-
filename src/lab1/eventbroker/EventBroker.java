@@ -1,4 +1,4 @@
-package eventbroker;
+package lab1.eventbroker;
 
 import java.util.HashMap;
 import java.util.HashSet;

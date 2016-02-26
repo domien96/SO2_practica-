@@ -1,4 +1,4 @@
-package alarmevent;
+package lab1.alarmevent;
 
 /**
  * Created by domien on 19/02/2016.

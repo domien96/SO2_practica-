@@ -1,9 +1,8 @@
-package alarmevent;
+package lab1.alarmevent;
 
-import eventbroker.Event;
-import eventbroker.EventBroker;
-import eventbroker.EventListener;
-import eventbroker.EventPublisher;
+import lab1.eventbroker.Event;
+import lab1.eventbroker.EventBroker;
+import lab1.eventbroker.EventListener;
 
 /**
  * Created by domien on 19/02/2016.

@@ -1,4 +1,4 @@
-package alarm;
+package lab1.alarm;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,6 @@
-package alarmwhiteboard;
+package lab1.alarmwhiteboard;
 
-import alarm.*;
+import lab1.alarm.*;
 
 /**
  * Created by domien on 19/02/2016.

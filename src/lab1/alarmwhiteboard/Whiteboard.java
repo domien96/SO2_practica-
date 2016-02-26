@@ -1,6 +1,6 @@
-package alarmwhiteboard;
+package lab1.alarmwhiteboard;
 
-import alarm.AlarmListener;
+import lab1.alarm.AlarmListener;
 
 import java.util.HashMap;
 import java.util.HashSet;

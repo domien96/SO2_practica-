@@ -1,11 +1,10 @@
-package alarmwhiteboard;
+package lab1.alarmwhiteboard;
 
-import alarm.Alarm;
-import alarm.AlarmListener;
-import alarm.Hospital;
+import lab1.alarm.Alarm;
+import lab1.alarm.AlarmListener;
+import lab1.alarm.Hospital;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

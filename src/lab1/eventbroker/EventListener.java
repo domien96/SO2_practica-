@@ -1,4 +1,4 @@
-package eventbroker;
+package lab1.eventbroker;
 
 public interface EventListener {
 

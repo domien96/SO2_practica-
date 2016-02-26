@@ -1,4 +1,4 @@
-package alarm;
+package lab1.alarm;
 
 public interface AlarmListener {
     
