@@ -17,9 +17,12 @@ public class Main {
 
         for(String name : names){
             Customer customer = new Customer(name);
-            for(int i=0;i<noOrders;i++){
-                customer.buy("item-"+i);
-            }
+            Thread t = new Thread(() -> {
+                for(int i=0;i<noOrders;i++){
+                    customer.buy("item-"+i);
+                }
+            });
+            t.start();
         }
     }
     
