@@ -21,12 +21,12 @@ public class OrderProcessor implements EventListener {
     }
 
     
-    protected void processOrder(OrderEvent order){
+    protected synchronized void processOrder(OrderEvent order){
         processedOrders++;
         System.out.println("Order of item "+order.getItem()+" for customer "+order.getCustomer()+ " processed!");
     }
 
-    public static int getNumberOfOrders(){
+    public static synchronized int getNumberOfOrders(){
         return processedOrders;
     }
    
