@@ -15,6 +15,11 @@ public class Main {
         
         OrderProcessor orderProcessor = new OrderProcessor();
 
+        opgave1en2(names);
+
+    }
+
+    private static void opgave1en2(String[] names) {
         Thread[] threads = new Thread[names.length];
         int threadIdx = 0;
 
@@ -42,5 +47,5 @@ public class Main {
         //All threads have done their work from now on.
         System.out.println(OrderProcessor.getNumberOfOrders());
     }
-    
+
 }

@@ -6,10 +6,20 @@ import java.util.*;
 
 final public class EventBroker implements Runnable{
 
-    LinkedList<QueueItem> queue = new LinkedList<>();
+    private LinkedList<QueueItem> queue = new LinkedList<>();
+    private volatile boolean stop = false;
+    private Thread eventsVerwerker;
+
     // Generieke luistenaars
     protected Set<EventListener> listeners = new HashSet<>();
+
     protected final static EventBroker broker = new EventBroker();
+
+    /**
+     *
+     *  METHODS
+     *
+     */
 
     private EventBroker() {
     }
@@ -26,32 +36,40 @@ final public class EventBroker implements Runnable{
         listeners.remove(s);
     }
 
-    void addEvent(EventPublisher source, Event e) {
+    public synchronized void addEvent(EventPublisher source, Event e) {
         queue.add(new QueueItem(source,e));
-    }
-
-    // Zelf toegevoegd
-
-    // Niet-generieke luisteraars
-    protected Map<String, Set<EventListener>> typedlisteners = new HashMap<>();
-
-    public void addEventListener(String type, EventListener s) {
-        if(typedlisteners.get(type) == null) {
-            typedlisteners.put(type, new HashSet<>());
-        }
-        typedlisteners.get(type).add(s);
     }
 
     @Override
     public void run() {
-        QueueItem cur = queue.poll();
-        while(cur != null) {
-
-            //OrderProcessor. todo HOE verwerk ik de event (opgave 3.3)
+        QueueItem cur;
+        while(!stop || !queue.isEmpty()) {
             cur = queue.poll();
+            if (cur != null) {
+                for (EventListener l : listeners) {
+                    if (cur.source != l) {
+                        l.handleEvent(cur.e); // prevent loops !
+                    }
+                }
+            }
         }
     }
 
+    public synchronized void start() {
+        stop = false;
+        eventsVerwerker = new Thread(() -> run());
+        eventsVerwerker.setName("Eventsverwerker");
+        eventsVerwerker.start();
+    }
+
+    public synchronized void stop() {
+        stop = true;
+        try {
+            eventsVerwerker.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private class QueueItem {
 
