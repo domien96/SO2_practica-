@@ -1,12 +1,12 @@
 package lab2.eventbroker;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import lab2.order.OrderProcessor;
 
-final public class EventBroker {
+import java.util.*;
 
+final public class EventBroker implements Runnable{
+
+    LinkedList<QueueItem> queue = new LinkedList<>();
     // Generieke luistenaars
     protected Set<EventListener> listeners = new HashSet<>();
     protected final static EventBroker broker = new EventBroker();
@@ -27,24 +27,7 @@ final public class EventBroker {
     }
 
     void addEvent(EventPublisher source, Event e) {
-        process(source, e);
-    }
-
-    private void process(EventPublisher source, Event e) {
-        // GENERIEKE LUISTERAARS
-        for (EventListener l : listeners) {
-            if (l != source) {
-                l.handleEvent(e); // prevent loops !
-            }
-        }
-        // NIET-GENERIEKE LUISTERAARS
-        if (typedlisteners.containsKey(e.getType())) {
-            for (EventListener l : typedlisteners.get(e.getType())) {
-                if (l != source) {
-                    l.handleEvent(e); // prevent loops !
-                }
-            }
-        }
+        queue.add(new QueueItem(source,e));
     }
 
     // Zelf toegevoegd
@@ -57,5 +40,27 @@ final public class EventBroker {
             typedlisteners.put(type, new HashSet<>());
         }
         typedlisteners.get(type).add(s);
+    }
+
+    @Override
+    public void run() {
+        QueueItem cur = queue.poll();
+        while(cur != null) {
+
+            //OrderProcessor. todo
+            cur = queue.poll();
+        }
+    }
+
+
+    private class QueueItem {
+
+        public final EventPublisher source;
+        public final Event e;
+
+        public QueueItem(EventPublisher source, Event e) {
+            this.source = source;
+            this.e = e;
+        }
     }
 }
