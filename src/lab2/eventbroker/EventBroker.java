@@ -47,7 +47,7 @@ final public class EventBroker implements Runnable{
         QueueItem cur = queue.poll();
         while(cur != null) {
 
-            //OrderProcessor. todo
+            //OrderProcessor. todo HOE verwerk ik de event (opgave 3.3)
             cur = queue.poll();
         }
     }
