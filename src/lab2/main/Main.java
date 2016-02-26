@@ -7,7 +7,7 @@ import lab2.order.OrderProcessor;
 
 public class Main {
     
-    public static int noOrders = 5;    
+    public static int noOrders = 500;
 
     public static void main(String[] args){
         

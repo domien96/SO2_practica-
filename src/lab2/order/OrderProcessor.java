@@ -2,9 +2,9 @@
 package lab2.order;
 
 
-import lab1.eventbroker.Event;
-import lab1.eventbroker.EventBroker;
-import lab1.eventbroker.EventListener;
+import lab2.eventbroker.Event;
+import lab2.eventbroker.EventBroker;
+import lab2.eventbroker.EventListener;
 
 public class OrderProcessor implements EventListener {
 

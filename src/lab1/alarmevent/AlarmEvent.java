@@ -1,6 +1,6 @@
 package lab1.alarmevent;
 
-import lab1.eventbroker.Event;
+import lab2.eventbroker.Event;
 
 /**
  * Created by domien on 19/02/2016.

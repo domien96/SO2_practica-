@@ -2,7 +2,7 @@
 package lab2.order;
 
 
-import lab1.eventbroker.Event;
+import lab2.eventbroker.Event;
 
 public class OrderEvent extends Event {
 

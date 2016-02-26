@@ -1,7 +1,7 @@
 
 package lab2.order;
 
-import lab1.eventbroker.EventPublisher;
+import lab2.eventbroker.EventPublisher;
 
 
 public class Customer extends EventPublisher{
