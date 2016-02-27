@@ -33,6 +33,13 @@ public class Main {
             for(int i=0;i<noOrders;i++){
                 customer.buy("item-"+i);
 
+                //opgave 5: even wachten.
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         System.out.println("------------ All orders have been sent. ------------");

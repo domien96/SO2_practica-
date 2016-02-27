@@ -47,14 +47,27 @@ final public class EventBroker implements Runnable{
     }
 
     public synchronized void addEvent(EventPublisher source, Event e) {
-        queue.add(new QueueItem(source,e));
+        if (!stop) {
+            synchronized (queue) {
+                queue.add(new QueueItem(source,e));
+                queue.notifyAll();
+            }
+        }
     }
 
     @Override
     public void run() {
         QueueItem cur;
         while(!stop || !queue.isEmpty()) {
-            cur = queue.poll();
+            synchronized (queue) {
+                if(queue.isEmpty())
+                    try {
+                        queue.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                cur = queue.poll();
+            }
             if (cur != null) {
                 // GENERIEKE LUISTERAARS
                 for (EventListener l : listeners) {
@@ -84,6 +97,9 @@ final public class EventBroker implements Runnable{
     public synchronized void stop() {
         stop = true;
         try {
+            synchronized (queue) {
+                queue.notifyAll(); //laat run afwerken indien die aan het wachten zou zijn op nieuwe events.
+            }
             eventsVerwerker.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
