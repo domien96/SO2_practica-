@@ -13,6 +13,9 @@ final public class EventBroker implements Runnable{
     // Generieke luistenaars
     protected Set<EventListener> listeners = new HashSet<>();
 
+    // Niet-generieke luisteraars
+    protected Map<String, Set<EventListener>> typedlisteners = new HashMap<>();
+
     protected final static EventBroker broker = new EventBroker();
 
     /**
@@ -32,6 +35,13 @@ final public class EventBroker implements Runnable{
         listeners.add(s);
     }
 
+    public void addEventListener(String type, EventListener s) {
+        if(typedlisteners.get(type) == null) {
+                typedlisteners.put(type, new HashSet<>());
+            }
+        typedlisteners.get(type).add(s);
+    }
+
     public void removeEventListener(EventListener s) {
         listeners.remove(s);
     }
@@ -46,9 +56,18 @@ final public class EventBroker implements Runnable{
         while(!stop || !queue.isEmpty()) {
             cur = queue.poll();
             if (cur != null) {
+                // GENERIEKE LUISTERAARS
                 for (EventListener l : listeners) {
-                    if (cur.source != l) {
-                        l.handleEvent(cur.e); // prevent loops !
+                        if (l != cur.source) {
+                                l.handleEvent(cur.e); // prevent loops !
+                        }
+                }
+                // NIETGENERIEKE LUISTERAARS
+                if (typedlisteners.containsKey(cur.e.getType())) {
+                    for (EventListener l : typedlisteners.get(cur.e.getType())) {
+                        if (l != cur.source) {
+                                l.handleEvent(cur.e); // prevent loops !
+                        }
                     }
                 }
             }

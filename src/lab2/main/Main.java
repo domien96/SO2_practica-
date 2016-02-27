@@ -1,22 +1,43 @@
 
 package lab2.main;
 
+import lab2.eventbroker.EventBroker;
+import lab2.order.BlacklistOrderProcessor;
 import lab2.order.Customer;
 import lab2.order.OrderProcessor;
+
+import java.awt.*;
 
 
 public class Main {
     
-    public static int noOrders = 500;
+    public static int noOrders = 5;
 
     public static void main(String[] args){
         
         String[] names = new String[]{"Jan", "Piet", "Joris", "Corneel"};
-        
-        OrderProcessor orderProcessor = new OrderProcessor();
 
-        opgave1en2(names);
+        OrderProcessor orderProcessor = OrderProcessor.createInstance();
+        BlacklistOrderProcessor blorderProcessor = BlacklistOrderProcessor.createInstance();
 
+        // De main instructies zien er anders uit aan de hand van de opgave.
+        //opgave1en2(names); // LET OP: Deze code zal de events niet meer de events verwerken, omdat de eventbroker.addEvent() is aangepast in opgave 3.
+        opgave3(names);
+
+    }
+
+    private static void opgave3(String[] names) {
+        EventBroker.getEventBroker().start();
+        for(String name : names){
+            Customer customer = new Customer(name);
+            for(int i=0;i<noOrders;i++){
+                customer.buy("item-"+i);
+
+            }
+        }
+        System.out.println("------------ All orders have been sent. ------------");
+        EventBroker.getEventBroker().stop();
+        System.out.println("Orders processed: "+OrderProcessor.getNumberOfOrders());
     }
 
     private static void opgave1en2(String[] names) {

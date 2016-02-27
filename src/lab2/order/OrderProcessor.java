@@ -10,8 +10,14 @@ public class OrderProcessor implements EventListener {
 
     protected static int processedOrders = 0;
     
-    public OrderProcessor(){
-        EventBroker.getEventBroker().addEventListener(OrderEvent.TYPE_ORDER, this);
+    protected OrderProcessor(){
+
+    }
+
+    public static OrderProcessor createInstance() {
+        OrderProcessor a = new OrderProcessor();
+        EventBroker.getEventBroker().addEventListener(OrderEvent.TYPE_ORDER, a);
+        return a;
     }
     
     @Override
