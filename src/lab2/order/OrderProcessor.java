@@ -40,8 +40,6 @@ public class OrderProcessor implements EventListener {
             doWork(1000);
             System.out.println("Order of item "+order.getItem()+" for customer "+order.getCustomer()+ " processed!");
         });
-        if(processedOrders==35)
-            threadpool.shutdown();
     }
 
     public static synchronized int getNumberOfOrders(){
