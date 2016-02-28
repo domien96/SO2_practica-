@@ -37,7 +37,7 @@ public class OrderProcessor implements EventListener {
     protected synchronized void processOrder(OrderEvent order){
         processedOrders++;
         threadpool.execute(() -> { // opgave 6 : threadpool
-            doWork(1000);
+            doWork(10);
             System.out.println("Order of item "+order.getItem()+" for customer "+order.getCustomer()+ " processed!");
         });
     }
