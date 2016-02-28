@@ -15,7 +15,7 @@ public class OrderProcessor implements EventListener {
     protected static int processedOrders = 0;
 
     //opgave 6
-    public static ExecutorService threadpool = Executors.newCachedThreadPool();
+    public static ExecutorService threadpool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*2);
     
     protected OrderProcessor(){
 

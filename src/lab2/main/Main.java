@@ -38,7 +38,8 @@ public class Main {
 
                 //opgave 5: even wachten.
                 try {
-                    Thread.sleep(100);
+                    //Thread.sleep(100);
+                    Thread.sleep(0);// overhead weghalen voor volgende oefeningen.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
