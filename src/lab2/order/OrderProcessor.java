@@ -6,9 +6,16 @@ import lab2.eventbroker.Event;
 import lab2.eventbroker.EventBroker;
 import lab2.eventbroker.EventListener;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class OrderProcessor implements EventListener {
 
     protected static int processedOrders = 0;
+
+    //opgave 6
+    public static ExecutorService threadpool = Executors.newFixedThreadPool(20);
     
     protected OrderProcessor(){
 
@@ -29,7 +36,12 @@ public class OrderProcessor implements EventListener {
     
     protected synchronized void processOrder(OrderEvent order){
         processedOrders++;
-        System.out.println("Order of item "+order.getItem()+" for customer "+order.getCustomer()+ " processed!");
+        threadpool.execute(() -> { // opgave 6 : threadpool
+            doWork(1000);
+            System.out.println("Order of item "+order.getItem()+" for customer "+order.getCustomer()+ " processed!");
+        });
+        if(processedOrders==35)
+            threadpool.shutdown();
     }
 
     public static synchronized int getNumberOfOrders(){

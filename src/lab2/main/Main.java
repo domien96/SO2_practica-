@@ -7,6 +7,7 @@ import lab2.order.Customer;
 import lab2.order.OrderProcessor;
 
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class Main {
@@ -14,7 +15,7 @@ public class Main {
     public static int noOrders = 5;
 
     public static void main(String[] args){
-        
+
         String[] names = new String[]{"Jan", "Piet", "Joris", "Corneel"};
 
         OrderProcessor orderProcessor = OrderProcessor.createInstance();
@@ -22,8 +23,10 @@ public class Main {
 
         // De main instructies zien er anders uit aan de hand van de opgave.
         //opgave1en2(names); // LET OP: Deze code zal de events niet meer de events verwerken, omdat de eventbroker.addEvent() is aangepast in opgave 3.
+        long start = System.currentTimeMillis();
         opgave3(names);
-
+        long end = System.currentTimeMillis();
+        System.out.println(end-start);
     }
 
     private static void opgave3(String[] names) {
@@ -44,7 +47,17 @@ public class Main {
         }
         System.out.println("------------ All orders have been sent. ------------");
         EventBroker.getEventBroker().stop();
+
+        // opgave 6
+        OrderProcessor.threadpool.shutdown();
+        try {
+            OrderProcessor.threadpool.awaitTermination(1, TimeUnit.HOURS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //
         System.out.println("Orders processed: "+OrderProcessor.getNumberOfOrders());
+
     }
 
     private static void opgave1en2(String[] names) {
