@@ -26,7 +26,7 @@ public class Main {
         long start = System.currentTimeMillis();
         opgave3(names);
         long end = System.currentTimeMillis();
-        System.out.println(end-start);
+        System.out.println("Execution Time = "+String.valueOf(end-start));
     }
 
     private static void opgave3(String[] names) {
