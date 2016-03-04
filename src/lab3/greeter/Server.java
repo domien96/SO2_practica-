@@ -7,14 +7,16 @@ public class Server {
 	      ServerSocket listen=null;
 	      int serverPort=1024;
 	      int bufferSize=100;
+		  OutputStream os = null;
+		  InputStream is = null;
 	      
 	      try {
 	    	  listen = new ServerSocket(serverPort);
 	    	  while(true) {
 	    		  byte[] buffer = new byte[bufferSize];
 	    		  Socket socket = listen.accept();
-				  InputStream is = socket.getInputStream();
-				  OutputStream os = socket.getOutputStream();
+				  is = socket.getInputStream();
+				  os = socket.getOutputStream();
 				  is.read(buffer);
 	    		  String rMess="Hello, "+ (new String(buffer));
 	    		  os.write(rMess.getBytes());
@@ -27,6 +29,20 @@ public class Server {
 	    	  if(listen!=null) {
 				  try {
 					  listen.close();
+				  } catch (IOException e) {
+					  e.printStackTrace();
+				  }
+			  }
+			  if (os != null) {
+				  try {
+					  os.close();
+				  } catch (IOException e) {
+					  e.printStackTrace();
+				  }
+			  }
+			  if (is != null) {
+				  try {
+					  is.close();
 				  } catch (IOException e) {
 					  e.printStackTrace();
 				  }
