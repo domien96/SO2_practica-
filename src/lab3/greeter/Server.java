@@ -4,26 +4,33 @@ import java.io.*;
 
 public class Server {
 	 public static void main(String[] args) {
-	      DatagramSocket socket=null;
-	      int serverPort=1234;
+	      ServerSocket listen=null;
+	      int serverPort=1024;
 	      int bufferSize=100;
 	      
 	      try {
-	    	  socket=new DatagramSocket(serverPort);
+	    	  listen = new ServerSocket(serverPort);
 	    	  while(true) {
-	    		  byte[] buffer=new byte[bufferSize];
-	    		  DatagramPacket request=new DatagramPacket(buffer,buffer.length);
-	    		  socket.receive(request);
-	    		  String rMess="Hello, "+ (new String(request.getData()));
-	    		  DatagramPacket reply =new DatagramPacket(rMess.getBytes(),rMess.length(),request.getAddress(),request.getPort());
-	    		  socket.send(reply);
+	    		  byte[] buffer = new byte[bufferSize];
+	    		  Socket socket = listen.accept();
+				  InputStream is = socket.getInputStream();
+				  OutputStream os = socket.getOutputStream();
+				  is.read(buffer);
+	    		  String rMess="Hello, "+ (new String(buffer));
+	    		  os.write(rMess.getBytes());
 	    	  }
 	      } catch(SocketException e) {
 	    	  System.err.println(e);
 	      } catch(IOException e) {
 	    	  System.err.println(e);
 	      } finally {
-	    	  if(socket!=null) socket.close();
+	    	  if(listen!=null) {
+				  try {
+					  listen.close();
+				  } catch (IOException e) {
+					  e.printStackTrace();
+				  }
+			  }
 	      }
 	   }
 

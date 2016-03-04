@@ -4,15 +4,14 @@ import java.io.*;
 
 public class Client {
 	public static void main(String[] args) {
-		InetAddress host = null;
-		int serverPort = 1234;
-		DatagramSocket socket = null;
-		BufferedReader consoleInput = new BufferedReader(new InputStreamReader(
-				System.in));
+		InetAddress host;
+		int serverPort = 1024;
+		Socket socket = null;
+		BufferedReader consoleInput;
 		String name = "";
 		try {
 			host = InetAddress.getLocalHost();
-			socket = new DatagramSocket(1300);
+			socket = new Socket(host, serverPort);
 			do {
 				// read in a name
 				System.out.println("Enter a name : ");
@@ -23,19 +22,16 @@ public class Client {
 				if (!(name.equals("stop"))) {
 					// send the name
 					byte[] messageBytes = name.getBytes();
-					DatagramPacket request = new DatagramPacket(messageBytes,
-							messageBytes.length, host, serverPort);
-					socket.send(request);
-
+					OutputStream os = socket.getOutputStream();
+					os.write(messageBytes);
 					// receive reply
 					byte[] buffer = new byte[50];
-					DatagramPacket reply = new DatagramPacket(buffer,
-							buffer.length);
-					socket.receive(reply);
+					InputStream is = socket.getInputStream();
+					is.read(buffer);
 
 					// print the greeting
 					System.out.println("Reply from server = "
-							+ (new String(reply.getData())));
+							+ (new String(buffer)));
 				}
 			} while (!(name.equals("stop")));
 		} catch (UnknownHostException e) {
@@ -46,7 +42,11 @@ public class Client {
 			System.err.println(e);
 		} finally {
 			if (socket != null)
-				socket.close();
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 }
