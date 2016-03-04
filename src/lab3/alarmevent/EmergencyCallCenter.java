@@ -1,8 +1,8 @@
-package alarmevent;
+package lab3.alarmevent;
 
-import eventbroker.EventPublisher;
+import lab1.eventbroker.EventPublisher;
 
-public class EmergencyCallCenter extends EventPublisher{
+public class EmergencyCallCenter extends EventPublisher {
     
     private String emergencyNumber;
     

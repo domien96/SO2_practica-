@@ -1,8 +1,6 @@
-package serialization;
+package lab3.serialization;
 
-import java.io.*;
 import java.util.*;
-import java.net.*;
 
 public class Server {
 

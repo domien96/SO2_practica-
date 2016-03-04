@@ -1,10 +1,7 @@
 
-package alarmevent;
+package lab3.alarmevent;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import network.Network;
 
 
 public class Server {

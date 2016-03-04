@@ -1,8 +1,9 @@
-package alarmevent;
+package lab3.alarmevent;
 
-import eventbroker.Event;
-import eventbroker.EventBroker;
-import eventbroker.EventListener;
+import lab1.eventbroker.Event;
+import lab1.eventbroker.EventBroker;
+import lab1.eventbroker.EventListener;
+
 import java.util.Random;
 
 public class PoliceDepartment implements EventListener {

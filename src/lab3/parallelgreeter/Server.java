@@ -1,4 +1,4 @@
-package parallelgreeter;
+package lab3.parallelgreeter;
 
 public class Server {
 

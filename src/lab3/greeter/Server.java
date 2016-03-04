@@ -1,4 +1,4 @@
-package greeter;
+package lab3.greeter;
 import java.net.*;
 import java.io.*;
 

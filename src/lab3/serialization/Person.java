@@ -1,5 +1,4 @@
-package serialization;
-import java.io.*;
+package lab3.serialization;
 
 public class Person {
 	private String firstName,lastName;

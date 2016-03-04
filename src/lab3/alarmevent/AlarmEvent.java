@@ -1,6 +1,6 @@
-package alarmevent;
+package lab3.alarmevent;
 
-import eventbroker.Event;
+import lab1.eventbroker.Event;
 
 public class AlarmEvent extends Event {
     

@@ -1,8 +1,6 @@
-package alarmevent;
+package lab3.alarmevent;
 
 import java.io.*;
-import java.net.InetAddress;
-import network.Network;
 
 public class Client {
 

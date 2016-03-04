@@ -1,7 +1,4 @@
-package serialization;
-
-import java.io.*;
-import java.net.*;
+package lab3.serialization;
 
 public class Client {
 

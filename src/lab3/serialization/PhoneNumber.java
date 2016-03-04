@@ -1,5 +1,4 @@
-package serialization;
-import java.io.*;
+package lab3.serialization;
 
 public class PhoneNumber {
 	private String countryCode,areaCode,number;
