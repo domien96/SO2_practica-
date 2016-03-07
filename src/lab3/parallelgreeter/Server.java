@@ -2,9 +2,7 @@ package lab3.parallelgreeter;
 
 import jdk.internal.util.xml.impl.Input;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -22,14 +20,14 @@ public class Server {
             while(true) {
                 Socket socket = listen.accept();
                 new Thread( () -> {
-                        try(InputStream is = socket.getInputStream();
-                            OutputStream os = socket.getOutputStream()) {
+                        try(BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                            PrintWriter out = new PrintWriter(new DataOutputStream(socket.getOutputStream()))){
                             while (true) {
-                                    byte[] buffer = new byte[bufferSize];
-                                    is.read(buffer);
-                                    String rMess = verwerk(new String(buffer));
-                                    os.write(rMess.getBytes());
-                                    os.flush();
+                                byte[] buffer = new byte[bufferSize];
+                                buffer = in.readLine().getBytes();
+                                String rMess = verwerk(new String(buffer));
+                                out.print(rMess);
+                                out.flush();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
