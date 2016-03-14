@@ -1,6 +1,8 @@
 package lab3.serialization;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
 	private String firstName,lastName;
 	private PhoneNumber number;
 	public Person(String firstName, String lastName){

@@ -1,6 +1,8 @@
 package lab3.serialization;
 
-public class PhoneNumber {
+import java.io.Serializable;
+
+public class PhoneNumber implements Serializable {
 	private String countryCode,areaCode,number;
 	public PhoneNumber(String countryCode,String areaCode,String number){
 		this.countryCode=countryCode;
