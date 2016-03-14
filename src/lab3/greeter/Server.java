@@ -12,15 +12,15 @@ public class Server {
 	      
 	      try {
 	    	  listen = new ServerSocket(serverPort);
+			  Socket socket = listen.accept();
 	    	  while(true) {
 	    		  byte[] buffer = new byte[bufferSize];
-	    		  Socket socket = listen.accept();
 				  is = socket.getInputStream();
+				  int length = is.read(buffer);
 				  os = socket.getOutputStream();
-				  is.read(buffer);
-	    		  String rMess="Hello, "+ (new String(buffer));
-	    		  os.write(rMess.getBytes());
-	    	  }
+	    		  String rMess = "Hello, " + (new String(buffer, 0, length));
+				  os.write(rMess.getBytes());
+			  }
 	      } catch(SocketException e) {
 	    	  System.err.println(e);
 	      } catch(IOException e) {

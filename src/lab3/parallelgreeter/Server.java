@@ -20,14 +20,13 @@ public class Server {
             while(true) {
                 Socket socket = listen.accept();
                 new Thread( () -> {
-                        try(BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                            PrintWriter out = new PrintWriter(new DataOutputStream(socket.getOutputStream()))){
+                        try(InputStream in = socket.getInputStream();
+                            OutputStream out = socket.getOutputStream()){
                             while (true) {
                                 byte[] buffer = new byte[bufferSize];
-                                buffer = in.readLine().getBytes();
-                                String rMess = verwerk(new String(buffer));
-                                out.print(rMess);
-                                out.flush();
+                                int length = in.read(buffer);
+                                String rMess = verwerk(new String(buffer, 0, length));
+                                out.write(rMess.getBytes());
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
