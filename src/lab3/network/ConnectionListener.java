@@ -26,6 +26,7 @@ public class ConnectionListener extends Thread {
                 socket = listen.accept();
                 if (socket != null) { //client gevonden
                     network.connect(socket);
+                    stop = true; //stop thread als connectie aangemaakt is
                 }
             } catch (IOException e) {
                 e.printStackTrace();
