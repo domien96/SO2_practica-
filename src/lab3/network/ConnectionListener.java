@@ -25,8 +25,9 @@ public class ConnectionListener extends Thread {
                 listen = new ServerSocket(serverPort);
                 socket = listen.accept();
                 if (socket != null) { //client gevonden
-                    network.connect(socket);
-                    stop = true; //stop thread als connectie aangemaakt is
+                    Connection connection = new Connection(socket, network);
+                    connection.receive();
+                    terminate(); //stop thread als connectie aangemaakt is
                 }
             } catch (IOException e) {
                 e.printStackTrace();
