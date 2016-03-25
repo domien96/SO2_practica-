@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by domien on 25/03/2016.
  */
-public class ChatModel {
+public class ChatModel extends Event {
     private String starter; // degene die de chatsessie startte.
     private List<ChatMessage> messages;
 
