@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 /**
+ * Labo JavaFX.
  * Created by jens on 25/03/2016.
  */
 public class Main extends Application {
