@@ -62,7 +62,7 @@ public class Main extends Application {
                 if (poort > 0 && poort < 65535) { //2^16 - 1
                     //geldige login
                     //laad fxml in
-                    System.out.println("geldig");
+
                 }
             } else {
                 errorLabel.setText("ongeldige poortnummer");
