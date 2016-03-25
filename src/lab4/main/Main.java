@@ -27,10 +27,10 @@ public class Main extends Application {
         pane.setPadding(new Insets(0, 10, 0, 10));
         primaryStage.setTitle("Log in");
         primaryStage.setScene(new Scene(pane, 300, 200));
-        pane.getChildren().add(new Label("Username"));
-        pane.getChildren().add(new TextField());
-        pane.getChildren().add(new Label("Port"));
-        pane.getChildren().add(new TextField());
+        pane.add(new Label("Username"),0,0);
+        pane.add(new TextField(),1,0);
+        pane.add(new Label("Port"),0,1);
+        pane.add(new TextField(),1,1);
         primaryStage.show();
     }
 
