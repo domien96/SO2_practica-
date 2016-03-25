@@ -12,10 +12,12 @@ public class ChatPanel {
 
     private AnchorPane content;
     private ChatModel model;
+    private ChatController controller;
 
     private ChatPanel() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("chatclient.fxml"));
+        controller = loader.getController();
         try {
             content = loader.load();
         } catch (IOException e) {
@@ -47,8 +49,8 @@ public class ChatPanel {
 
     }
 
-    public ChatControler getChatController() {
-
+    public ChatController getChatController() {
+        return controller;
     }
 
 }
