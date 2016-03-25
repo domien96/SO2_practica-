@@ -10,6 +10,6 @@ public class ChatController {
     }
 
     private void initialize() {
-        
+
     }
 }
