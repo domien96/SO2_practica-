@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import lab4.chat.ChatPanel;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,9 @@ public class Main extends Application {
                 poort = Integer.parseInt(port.getText());
                 if (poort > 0 && poort < 65535) { //2^16 - 1
                     //geldige login
+                    ChatPanel pnl = ChatPanel.createChatPanel();
+                    pnl.getChatController().setServerPort(poort);
+                    pnl.getChatController().getModel().setStarter(username.getText());
                     //laad fxml in
 
                 }

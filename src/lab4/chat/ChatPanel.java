@@ -1,7 +1,10 @@
 package lab4.chat;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
@@ -10,7 +13,7 @@ import java.io.IOException;
  */
 public class ChatPanel {
 
-    private AnchorPane content;
+    private TextArea content;
     private ChatModel model;
     private ChatController controller;
 
@@ -18,6 +21,8 @@ public class ChatPanel {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("chatclient.fxml"));
         controller = loader.getController();
+        controller.setModel(new ChatModel());
+        content.textProperty().bind(controller.getModel().chattextProperty());
         try {
             content = loader.load();
         } catch (IOException e) {
@@ -29,11 +34,11 @@ public class ChatPanel {
         return new ChatPanel();
     }
 
-    public void setContent(AnchorPane content) {
+    public void setContent(TextArea content) {
         this.content = content;
     }
 
-    public AnchorPane getContent() {
+    public TextArea getContent() {
         return content;
     }
 
@@ -45,9 +50,11 @@ public class ChatPanel {
         return model;
     }
 
-    public void setChatController(ChatController controller) {
 
-    }
+//    Deze methode is overbodig.
+//    public void setChatController(ChatController controller) {
+//
+//    }
 
     public ChatController getChatController() {
         return controller;

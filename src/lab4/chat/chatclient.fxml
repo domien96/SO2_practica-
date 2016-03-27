@@ -11,7 +11,7 @@
    <left>
       <ScrollPane prefHeight="324.0" prefWidth="394.0" BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          <TextArea minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
       </ScrollPane>
    </left>
@@ -39,7 +39,7 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea prefHeight="50.0" prefWidth="306.0" />
+            <TextArea fx:id="inputfield" prefHeight="50.0" prefWidth="306.0" />
             <Button mnemonicParsing="false" text="Send">
                <HBox.margin>
                   <Insets />
