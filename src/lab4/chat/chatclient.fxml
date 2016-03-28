@@ -6,12 +6,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane fx:controller="lab4.chat.ChatController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab4.chat.ChatController">
    <left>
       <ScrollPane prefHeight="324.0" prefWidth="394.0" BorderPane.alignment="CENTER">
         <content>
-          <TextArea minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          <TextArea fx:id="content" prefHeight="293.0" prefWidth="386.0" />
         </content>
       </ScrollPane>
    </left>
@@ -40,7 +39,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <TextArea fx:id="inputfield" prefHeight="50.0" prefWidth="306.0" />
-            <Button mnemonicParsing="false" text="Send">
+            <Button onAction="#sendMessage" mnemonicParsing="false" text="Send">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

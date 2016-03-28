@@ -7,14 +7,10 @@ import eventbroker.Event;
  */
 public class ChatMessage extends Event {
     private String sender;
-    private String message;
 
-    public ChatMessage(String type, String message) {
+    public ChatMessage(String type, String sender, String message) {
         super(type, message);
-    }
-
-    public String getMessage() {
-        return message;
+        this.sender = sender;
     }
 
     public String getSender() {

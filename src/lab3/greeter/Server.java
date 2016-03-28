@@ -22,8 +22,10 @@ public class Server {
 				  os.write(rMess.getBytes());
 			  }
 	      } catch(SocketException e) {
+			  e.printStackTrace();
 	    	  System.err.println(e);
 	      } catch(IOException e) {
+			  e.printStackTrace();
 	    	  System.err.println(e);
 	      } finally {
 	    	  if(listen!=null) {

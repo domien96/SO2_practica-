@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ChatModel {
     private String starter; // degene die de chatsessie startte.
-    private List<ChatMessage> messages = new ArrayList<>();
+    private List<String> messages = new ArrayList<>();
 
     public String getChattext() {
         return chattext.get();
@@ -22,7 +22,7 @@ public class ChatModel {
         return chattext;
     }
 
-    private StringProperty chattext = new SimpleStringProperty();
+    private StringProperty chattext = new SimpleStringProperty("");
 
     public String getStarter() {
         return starter;
@@ -32,8 +32,8 @@ public class ChatModel {
         this.starter = starter;
     }
 
-    public void addMessage(ChatMessage msg) {
+    public void addMessage(String msg) {
         messages.add(msg);
-        chattext.setValue(chattext.getValue() + String.format("%1: %2",msg.getSender(),msg.getMessage()) + '\n');
+        chattext.setValue(chattext.get() + msg);
     }
 }

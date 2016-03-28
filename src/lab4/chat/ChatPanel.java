@@ -1,10 +1,12 @@
 package lab4.chat;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import lab4.main.Main;
 
 import java.io.IOException;
 
@@ -14,20 +16,24 @@ import java.io.IOException;
 public class ChatPanel {
 
     private TextArea content;
-    private ChatModel model;
+    private ChatModel model = Main.model;
     private ChatController controller;
+    private Scene scene;
 
     private ChatPanel() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("chatclient.fxml"));
-        controller = loader.getController();
-        controller.setModel(new ChatModel());
-        content.textProperty().bind(controller.getModel().chattextProperty());
+        loader.setLocation(this.getClass().getResource("chatclient.fxml"));
+
         try {
-            content = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+            scene = new Scene(loader.load());
+        } catch (IOException var3) {
+            var3.printStackTrace();
         }
+
+        this.controller = (ChatController)loader.getController();
+        this.controller.setModel(model);
+        this.content = controller.getContent();
+        this.content.textProperty().bind(this.controller.getModel().chattextProperty());
     }
 
     public static ChatPanel createChatPanel() {
@@ -60,4 +66,7 @@ public class ChatPanel {
         return controller;
     }
 
+    public Scene getScene() {
+        return scene;
+    }
 }

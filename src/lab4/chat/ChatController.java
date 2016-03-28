@@ -11,7 +11,15 @@ import javafx.scene.control.TextArea;
  */
 public class ChatController extends EventPublisher {
 
+    @FXML
     public TextArea inputfield;
+
+    @FXML
+    public TextArea content;
+
+    public TextArea getContent() {
+        return content;
+    }
 
     public ChatModel getModel() {
         return model;
@@ -43,14 +51,19 @@ public class ChatController extends EventPublisher {
 
     @FXML
     public void sendMessage() {
-        publishEvent(new Event("chatmessage",model.getStarter()+ ": "+inputfield.getText()));
+        publishEvent(new ChatMessage("chatmessage",model.getStarter(),inputfield.getText()));
     }
 
-    class ChatEventHandler implements EventListener {
+    public void sendMessage(String sender, String msg) {
+        publishEvent(new ChatMessage("chatmessage",sender,msg));
+    }
+
+    public class ChatEventHandler implements EventListener {
 
         @Override
         public void handleEvent(Event event) {
-            model.addMessage(new ChatMessage(model.getStarter(),inputfield.getText()));
+            ChatMessage msg = (ChatMessage) event;
+            model.addMessage(String.format("%1s: %2s",msg.getSender(),msg.getMessage()) + '\n');
         }
     }
 }
