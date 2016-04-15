@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * Created by domien on 15/04/2016.
  */
-public class Main extends Application {
+public class MainOthelloPiece extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane root = new GridPane();
