@@ -2,22 +2,18 @@ package lab5.othelllo;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.Serializable;
-import java.util.Stack;
 
 /**
  * Created by domien on 15/04/2016.
  */
-public class OthelloPiece implements Serializable, ChangeListener<Number>
+public class OthelloPiece implements Serializable
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
     private StackPane cell = new StackPane();
@@ -30,33 +26,28 @@ public class OthelloPiece implements Serializable, ChangeListener<Number>
         cell.setMinSize(50,50);
         // default grijze cirkel
         cell.setOnMouseClicked((e) -> {
-            if (this.getFoo() == -1) {
-                this.setFoo(1);
+            if (this.getState() == -1) {
+                this.setState(1);
             } else {
-                this.setFoo(getFoo() - 1);
+                this.setState(getState() - 1);
             }
         }
         );
 
     }
 
-    @Override
-    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-    }
-
-    public synchronized Integer getFoo(){
+    public synchronized Integer getState(){
         return state.getValue();
     }
 
-    public synchronized void setFoo(int newValue){
+    public synchronized void setState(int newValue){
         state.setValue(newValue);
         cell.getChildren().clear();
         cell.getChildren().add(circles[newValue + 1]);
         cell.setAlignment(Pos.CENTER);
     }
 
-    public ObjectProperty<Integer> fooProperty() {
+    public ObjectProperty<Integer> stateProperty() {
         return state;
     }
 
