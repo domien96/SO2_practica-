@@ -41,10 +41,10 @@ public class OthelloPiece implements Serializable
 
     public synchronized void setFoo(int newValue){
         state.setValue(newValue);
-        cell.setBackground(new);
+        cell.getChildren().clear();
         cell.getChildren().add(circles[newValue+1]);
     }
-    
+
     public ObjectProperty<Integer> fooProperty() {
         return state;
     }
