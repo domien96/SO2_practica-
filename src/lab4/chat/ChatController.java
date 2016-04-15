@@ -4,6 +4,7 @@ import eventbroker.Event;
 import eventbroker.EventBroker;
 import eventbroker.EventListener;
 import eventbroker.EventPublisher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -158,7 +159,9 @@ public class ChatController extends EventPublisher {
         @Override
         public void handleEvent(Event event) {
             ChatMessage msg = (ChatMessage) event;
-            model.addMessage(String.format("%1s: %2s",msg.getSender(),msg.getMessage()) + '\n');
+            Platform.runLater(
+                    () -> model.addMessage(String.format("%1s: %2s",msg.getSender(),msg.getMessage()) + '\n')
+            );
         }
     }
 }
