@@ -2,6 +2,8 @@ package lab5.othelllo;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -15,7 +17,7 @@ import java.util.Stack;
 /**
  * Created by domien on 15/04/2016.
  */
-public class OthelloPiece implements Serializable
+public class OthelloPiece implements Serializable, ChangeListener<Number>
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
     private StackPane cell = new StackPane();
@@ -35,6 +37,11 @@ public class OthelloPiece implements Serializable
             }
         }
         );
+
+    }
+
+    @Override
+    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
     }
 
