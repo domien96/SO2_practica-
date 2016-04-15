@@ -10,10 +10,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import lab4.chat.ChatController;
 import lab4.chat.ChatModel;
 import lab4.chat.ChatPanel;
 import network.Network;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -31,9 +33,23 @@ public class Main extends Application {
     private TextField port;
     private Button login;
     private Label errorLabel;
-    private Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    private static Stage stage;
+
+    public static Network getNetwork() {
+        return network;
+    }
+
+    public static void setNetwork(Network network) {
+        Main.network = network;
+    }
 
     private static Network network;
+    private static ChatController ctrler;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -60,6 +76,7 @@ public class Main extends Application {
         pane.add(errorLabel, 1, 2);
 
         login.setOnMouseClicked(event -> loginClicked());
+        port.onActionProperty().setValue((event)->loginClicked());
 
         stage=primaryStage;
         primaryStage.show();
@@ -77,7 +94,7 @@ public class Main extends Application {
                         stage.setScene(pnl.getScene());
 
                     } else {
-                        errorLabel.setText("Kan geen verbinding maken.");
+                        errorLabel.setText("Kan geen verbinding maken. Poort al in gebruik?");
                         errorLabel.setVisible(true);
                     }
                 }
@@ -102,39 +119,25 @@ public class Main extends Application {
         //geldige login
         pnl.getChatController().setServerPort(poort);
         pnl.getChatController().getModel().setStarter(username.getText());
+        ctrler = pnl.getChatController();
         EventBroker.getEventBroker().addEventListener("chatmessage",pnl.getChatController().new ChatEventHandler());
         EventBroker.getEventBroker().start();
         try {
             if (!setupServer(poort)) {
                 InetAddress loc = InetAddress.getByName(InetAddress.getLocalHost().getHostAddress());
                 if (setupClient(poort,loc)) {
-                    pnl.getChatController().sendMessage("<info>", String.format(username.getText() + " connected to %1s:%2s.", loc, poort));
+                    pnl.getChatController().sendInfoMessage(String.format(username.getText() + " connected to %1s:%2s.", loc, poort));
                 } else {
                     return false;
                 }
             } else {
-                pnl.getChatModel().addMessage("<info> Waiting for client to connect...\n");
+                pnl.getChatController().writeConsole(String.format("<info> Listening at %1s on port %2s...\n",InetAddress.getLocalHost().getHostAddress(),port.getText()));
+                pnl.getChatController().writeConsole("<info> Waiting for client to connect...\n");
             }
         } catch (UnknownHostException e) {
-            System.err.println("Cannot retrieve Inetaddress.");
             e.printStackTrace();
-            return false;
         }
         return true;
-    }
-
-    /**
-     * @return :
-     *      True if succesfully server-Network is built.
-     *      If false, probably another server is already made on this port.
-     */
-    private boolean setupServer(int poort) {
-        try {
-            network = new Network(poort);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     /**
@@ -148,7 +151,23 @@ public class Main extends Application {
             network.connect(adress,poort);
             return true;
         } catch (IOException e) {
+            EventBroker.getEventBroker().removeEventListener(network);
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * @return :
+     *      True if succesfully server-Network is built.
+     *      If false, probably another server is already made on this port.
+     */
+    private boolean setupServer(int poort) {
+        try {
+            network = new Network(poort);
+            return true;
+        } catch (IOException e) {
+            EventBroker.getEventBroker().removeEventListener(network);
             return false;
         }
     }
@@ -170,13 +189,22 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
+        try {
+            ctrler.sendInfoMessage((String.format(model.getStarter() + " disconnected.")) );
+            Thread.sleep(100); // Making sure all other clients receive the message before network is closed.
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         try {
             if (network!= null)
                 network.terminate();
-            EventBroker.getEventBroker().stop();
         } catch (IOException e) {
             System.err.println("Failed terminating network.");
             e.printStackTrace();
+        } finally {
+            EventBroker.getEventBroker().stop();
         }
     }
 }

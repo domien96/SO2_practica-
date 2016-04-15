@@ -22,7 +22,7 @@ public class ChatPanel {
 
     private ChatPanel() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("chatclient.fxml"));
+        loader.setLocation(this.getClass().getResource("ChatPane.fxml"));
 
         try {
             scene = new Scene(loader.load());
