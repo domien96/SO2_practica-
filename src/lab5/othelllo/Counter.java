@@ -20,8 +20,13 @@ public class Counter implements Serializable {
 
     public Counter() {
         // initialize...
-        cell.add(new Label(this.stateToCount.get()),0,0);
-        cell.add(new Label(this.number.get().toString()),0,1);
+        Label lbl = new Label();
+        lbl.textProperty().bind(this.stateToCount);
+        cell.add(lbl,0,0);
+
+        lbl = new Label();
+        lbl.textProperty().bind(this.number.to);
+        cell.add(lbl,0,1);
     }
 
     public synchronized Integer getNumber() {
@@ -45,6 +50,7 @@ public class Counter implements Serializable {
     }
 
     public synchronized void setStateToCount(String stateToCount) {
+        cell.get
         this.stateToCount.set(stateToCount);
     }
 
