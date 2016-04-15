@@ -16,7 +16,7 @@ public class OthelloPiece implements Serializable
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
     private Pane cell = new Pane();
-    private Circle[] circles = { new Circle(50, Color.BLACK), new Circle(50,Color.GRAY), new Circle(50,Color.WHITE)};
+    private Circle[] circles = { new Circle(25, Color.BLACK), new Circle(25,Color.GRAY), new Circle(25,Color.WHITE)};
 
     public OthelloPiece(){
         // intialisatie ...
