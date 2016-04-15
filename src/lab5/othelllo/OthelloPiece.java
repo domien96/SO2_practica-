@@ -2,12 +2,15 @@ package lab5.othelllo;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.Serializable;
+import java.util.Stack;
 
 /**
  * Created by domien on 15/04/2016.
@@ -15,7 +18,7 @@ import java.io.Serializable;
 public class OthelloPiece implements Serializable
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
-    private Pane cell = new Pane();
+    private StackPane cell = new StackPane();
     private Circle[] circles = { new Circle(25, Color.BLACK), new Circle(25,Color.GRAY), new Circle(25,Color.WHITE)};
 
     public OthelloPiece(){
@@ -42,7 +45,8 @@ public class OthelloPiece implements Serializable
     public synchronized void setFoo(int newValue){
         state.setValue(newValue);
         cell.getChildren().clear();
-        cell.getChildren().add(circles[newValue+1]);
+        cell.getChildren().add(circles[newValue + 1]);
+        cell.setAlignment(Pos.CENTER);
     }
 
     public ObjectProperty<Integer> fooProperty() {
