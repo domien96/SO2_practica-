@@ -17,11 +17,11 @@ public class OthelloPiece implements Serializable
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
     private StackPane cell = new StackPane();
-    private Circle[] circles = { new Circle(25, Color.BLACK), new Circle(25,Color.GRAY), new Circle(25,Color.WHITE)};
+    private Circle[] circles = { new Circle(25, Color.BLACK), new Circle(25,Color.LIGHTGRAY), new Circle(25,Color.WHITE)};
 
     public OthelloPiece(){
         // intialisatie ...
-        cell.setStyle("-fx-background-color: gray");
+        cell.setStyle("-fx-background-color: lightgray");
         cell.setPrefSize(50,50);
         cell.setMinSize(50,50);
         // default grijze cirkel
