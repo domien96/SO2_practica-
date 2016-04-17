@@ -1,4 +1,4 @@
-package lab5.othelllo;
+package lab5.othello;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

@@ -1,4 +1,4 @@
-package lab5.othelllo;
+package lab5.othello;
 
 import javafx.scene.layout.Pane;
 import lab5.game.GameInterface;

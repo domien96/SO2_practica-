@@ -10,12 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import lab5.Framework.main.Main;
 import lab5.game.GameInterface;
 import network.Network;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.nio.file.Path;
@@ -31,6 +34,7 @@ public class ChatController extends EventPublisher {
 
     @FXML
     public TextArea content;
+    public GridPane gamePanel;
 
     public TextArea getContent() {
         return content;
@@ -155,10 +159,11 @@ public class ChatController extends EventPublisher {
     /************GAME************/
     public void chooseGame(ActionEvent e) {
         FileChooser chsr = new FileChooser();
-        chsr.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Java Archive",".jar"));
-        Path path = chsr.showOpenDialog(content.getScene().getWindow()).toPath();
+        chsr.setInitialDirectory(new File(System.getProperty("user.dir")));
+        chsr.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Java Archive","*.jar"));
+        File path = chsr.showOpenDialog(content.getScene().getWindow());
         if(path != null) {
-            loadGame(path);
+            loadGame(path.toPath());
         }
     }
 
@@ -167,7 +172,7 @@ public class ChatController extends EventPublisher {
             return;
         URLClassLoader ldr;
         try {
-            ldr = URLClassLoader.newInstance(new URL[] {new URL(path.toString())});
+            ldr = URLClassLoader.newInstance(new URL[] {path.toUri().toURL()});
         } catch (MalformedURLException e) {
             writeConsole("Something went wrong.");
             e.printStackTrace();
@@ -175,7 +180,7 @@ public class ChatController extends EventPublisher {
         }
 
         try {
-            Class othello = ldr.loadClass("Othello");
+            Class othello = ldr.loadClass("lab5.othello.Othello");
             GameInterface game = (GameInterface) othello.newInstance();
             showPane(game.getGamePanel());
         } catch (ClassNotFoundException e) {
@@ -197,6 +202,7 @@ public class ChatController extends EventPublisher {
     }
 
     private void showPane(Pane gamePanel) {
+        this.gamePanel.add(gamePanel,0,0);
     }
 
 
