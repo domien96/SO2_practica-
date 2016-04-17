@@ -3,7 +3,7 @@ package lab5.Framework.chat;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
-import lab5.Framework.main.Main;
+import lab5.main.Main;
 
 import java.io.IOException;
 

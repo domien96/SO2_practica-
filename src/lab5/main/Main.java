@@ -1,4 +1,4 @@
-package lab5.Framework.main;
+package lab5.main;
 
 import eventbroker.EventBroker;
 import javafx.application.Application;
