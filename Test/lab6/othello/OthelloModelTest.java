@@ -21,38 +21,5 @@ public class OthelloModelTest {
 
     }
 
-    @Test
-    public void getState() throws Exception {
-
-    }
-
-    @Test
-    public void setState() throws Exception {
-
-    }
-
-    @Test
-    public void inBounds() throws Exception {
-
-    }
-
-    @Test
-    public void getTurn() throws Exception {
-
-    }
-
-    @Test
-    public void setTurn() throws Exception {
-
-    }
-
-    @Test
-    public void getSize() throws Exception {
-
-    }
-
-    @Test
-    public void equals() throws Exception {
-
-    }
+    
 }
