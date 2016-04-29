@@ -22,6 +22,7 @@ public class OthelloModel {
     
     public void setState(int x, int y, int state) throws BoardIndexOutOfBoundsException {
         // TODO Not implemented yet!
+        throw new BoardIndexOutOfBoundsException();
     }
     
     public boolean inBounds(int x, int y){
