@@ -13,8 +13,10 @@ public class OthelloController {
     }
     
     public boolean isValidMove(int x, int y) throws BoardIndexOutOfBoundsException {
-        // TODO Not implemented yet!
-        return false;
+        boolean isValid = false;
+        int[][] l = {{},{1},{1}};
+        //for()
+        return model.inBounds(x,y) && isValid;
     }
     
     public void doMove(int x, int y) throws InvalidMoveException, BoardIndexOutOfBoundsException {
