@@ -182,6 +182,10 @@ public class ChatController extends EventPublisher {
             Class othello = ldr.loadClass("lab5.othello.Othello");
             GameInterface game = (GameInterface) othello.newInstance();
             showPane(game.getGamePanel());
+
+            // Zonder cast naar GameInterface
+            //Method m = othello.getMethod("getGamePanel");
+            //showPane((Pane) m.invoke(othello.newInstance()));
         } catch (ClassNotFoundException e) {
             writeConsole("Jar does not follow the conventions: Jar has to contain a class with the same name.");
             e.printStackTrace();
