@@ -1,5 +1,5 @@
 
-package othello.exception;
+package lab6.othello.exception;
 
 
 public class InvalidBoardSizeException extends Exception {

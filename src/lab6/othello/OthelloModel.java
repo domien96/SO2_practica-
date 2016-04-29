@@ -1,9 +1,8 @@
+package lab6.othello;
 
-package othello;
 
-import othello.exception.BoardIndexOutOfBoundsException;
-import othello.exception.InvalidBoardSizeException;
-
+import lab6.othello.exception.BoardIndexOutOfBoundsException;
+import lab6.othello.exception.InvalidBoardSizeException;
 
 public class OthelloModel {
 

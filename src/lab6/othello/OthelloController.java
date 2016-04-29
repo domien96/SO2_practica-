@@ -1,8 +1,7 @@
+package lab6.othello;
 
-package othello;
-
-import othello.exception.BoardIndexOutOfBoundsException;
-import othello.exception.InvalidMoveException;
+import lab6.othello.exception.BoardIndexOutOfBoundsException;
+import lab6.othello.exception.InvalidMoveException;
 
 
 public class OthelloController {
