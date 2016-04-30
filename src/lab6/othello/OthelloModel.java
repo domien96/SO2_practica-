@@ -1,46 +1,53 @@
 package lab6.othello;
 
 
+import lab5.othello.*;
 import lab6.othello.exception.BoardIndexOutOfBoundsException;
 import lab6.othello.exception.InvalidBoardSizeException;
 
 public class OthelloModel {
 
+    private final int size;
     // the game board
     private int[][] board;
-    // who's turn it is (-1/1)
+    // who's turn it is (-1/1) = (black/white)
     private int turn;
     
     public OthelloModel(int size) throws InvalidBoardSizeException {
-       // TODO Not implemented yet!
+        if (size>0 && size%2 ==0)
+            this.size=size;
+        else
+            throw new InvalidBoardSizeException();
+
+        // bord initializeren
+        board = new int[size][size];
     }
     
     public int getState(int x, int y){
-        // TODO Not implemented yet!
-        return 0;
+        return inBounds(x,y)? board[x][y] : 0;
     }
     
     public void setState(int x, int y, int state) throws BoardIndexOutOfBoundsException {
-        // TODO Not implemented yet!
+        if(inBounds(x,y))
+            board[x][y] = state;
+        else
+            throw new BoardIndexOutOfBoundsException();
     }
     
     public boolean inBounds(int x, int y){
-        // TODO Not implemented yet!
-        return false;
+        return x >= 0 && y>=0 && x<size && y<size;
     }
     
     public int getTurn(){
-        // TODO Not implemented yet!
-        return 0;
+        return turn;
     }
     
     public void setTurn(int turn){
-        // TODO Not implemented yet!
+        this.turn = turn;
     }
     
     public int getSize(){
-        // TODO Not implemented yet!
-        return 0;
+        return size;
     }
     
     public String toString(){
@@ -56,7 +63,18 @@ public class OthelloModel {
     
     @Override
     public boolean equals(Object o){
-        // TODO Not implemented yet!
+        if(o instanceof OthelloModel) {
+            OthelloModel other = (OthelloModel) o;
+            if(other.size == this.size && other.turn == this.turn) {
+                for(int row=0;row<size;row++) {
+                    for(int col=0;col<size;col++) {
+                        if (!(board[row][col] == other.board[row][col]))
+                            return false;
+                    }
+                }
+                return true;
+            }
+        }
         return false;
     }
     
