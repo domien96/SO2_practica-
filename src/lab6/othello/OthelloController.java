@@ -85,22 +85,20 @@ public class OthelloController {
                 }
             }
             model.setTurn((model.getTurn()+1)%2);
+        } else {
+            throw new InvalidMoveException();
         }
     }
 
     // Beide coordinaten moeten inbounds zijn. Als dit niet zo is, gebeurt er niets!
-    public void changeLine(int xFrom, int yFrom, int xTo, int yTo, int state) {
+    public void changeLine(int xFrom, int yFrom, int xTo, int yTo, int state) throws BoardIndexOutOfBoundsException {
         if(model.inBounds(xFrom,yFrom) && model.inBounds(xTo,yTo)) {
             // Stepsize voor X en Y berekenen.
             int difX = (int) Math.signum(xTo-xFrom),
             difY = (int) Math.signum(yTo-yFrom);
             int x=xFrom,y=yFrom;
             while(!(x==xTo && y==yTo)) {
-                try {
-                    model.setState(x,y,state);
-                } catch (BoardIndexOutOfBoundsException e) {
-                    // should never happen because of first-check.
-                }
+                model.setState(x,y,state);
                 x += difX;
                 y += difY;
             }

@@ -41,17 +41,17 @@ public class OthelloControllerTest {
         for (int x=0;x<boardSize;x++) {
             for (int y=0;y<boardSize;y++) {
                 int[] bufferBlack = curBlack<legalForBlack.length? legalForBlack[curBlack] : null,
-                        bufferWhite = curBlack<legalForWhite.length? legalForWhite[curWhite] : null;
+                        bufferWhite = curWhite<legalForWhite.length? legalForWhite[curWhite] : null;
                 if (bufferBlack!=null && x==bufferBlack[0] && y==bufferBlack[1]) {
                     curBlack++;
-                    assertTrue(ctrl.isValidMove(x,y));
+                    assertTrue(String.format("Geteste coordinaat: (%d,%d)",x,y),ctrl.isValidMove(x,y));
                 } else  if (bufferWhite!=null && x==bufferWhite[0] && y==bufferWhite[1]) {
                     curWhite++;
                     m.setTurn(1);
-                    assertTrue(ctrl.isValidMove(x, y));
+                    assertTrue(String.format("Geteste coordinaat: (%d,%d)",x,y),ctrl.isValidMove(x, y));
                     m.setTurn(0);
                 } else {
-                    assertFalse(ctrl.isValidMove(x,y));
+                    assertFalse(String.format("Geteste coordinaat: (%d,%d)",x,y),ctrl.isValidMove(x,y));
                 }
             }
         }
@@ -70,7 +70,7 @@ public class OthelloControllerTest {
         setUp();
         m.setTurn(0); // black
         ctrl.doMove(0,1);
-        assertEquals(m.getTurn(),1);
+        assertEquals(1,m.getTurn());
 
         int[][] black={{0,1},{1,1},{1,2},{2,1}}, empty = {{0,0},{1,0},{2,0},{3,0},{3,1},{3,2},{3,3},{2,3},{1,3},{0,3},{0,2}};
         assertEquals(m.getState(2,2),1); // wit
@@ -145,13 +145,13 @@ public class OthelloControllerTest {
         ctrl.doMove(1,3);
         ctrl.doMove(2,0);
         ctrl.doMove(3,2);
-        ctrl.doMove(3,0);
         ctrl.doMove(3,1);
         ctrl.doMove(0,0);
         ctrl.doMove(0,1);
         ctrl.doMove(0,3);
         ctrl.doMove(3,3);
-        ctrl.doMove(2,3);
+        ctrl.doMove(3,0);
+        m.setState(2,3,1); // geen zteten meer: bord opvullen.
         assertEquals(-1,ctrl.isFinished());
 
 
@@ -202,12 +202,12 @@ public class OthelloControllerTest {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,-1);
         }
-        m.setState(1,3,0);
-        m.setState(2,3,0);
+        m.setState(boardSize/2-1,3,0);
         for(int row=boardSize/2;row<boardSize;row++) {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,1);
         }
+        m.setState(boardSize/2,3,0);
         assertEquals(2,ctrl.isFinished());
 
 
