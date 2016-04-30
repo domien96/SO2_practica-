@@ -76,9 +76,14 @@ public class OthelloModelTest {
         model.setState(-1,0,0);
     }
 
-    @Test(expected = BoardIndexOutOfBoundsException.class)
+    @Test
     public void testGetStateInvalidCoordinate() throws BoardIndexOutOfBoundsException {
-        model.getState(-1,0);
+        model.setState(size/2+1,0,1);
+        assertEquals(1,model.getState(size/2+1,0));
+        model.setState(size/2+1,0,-1);
+        assertEquals(-1,model.getState(size/2+1,0));
+        model.setState(size/2+1,0,0);
+        assertEquals(0,model.getState(size/2+1,0));
     }
 
     @Test

@@ -66,74 +66,68 @@ public class OthelloControllerTest {
     public void doMove() throws Exception {
         // ALLE COORDINATEN VAN DE VORM (X,Y) = (RIJ,COL)
 
-        OthelloModel testMdl;
-        OthelloController testCtlr;
         // {0,1}
-        testMdl = new OthelloModel(4);
-        testMdl.setTurn(0); // black
-        testCtlr = new OthelloController(testMdl);
-        testCtlr.doMove(0,1);
-        assertEquals(testMdl.getTurn(),1);
+        setUp();
+        m.setTurn(0); // black
+        ctrl.doMove(0,1);
+        assertEquals(m.getTurn(),1);
 
         int[][] black={{0,1},{1,1},{1,2},{2,1}}, empty = {{0,0},{1,0},{2,0},{3,0},{3,1},{3,2},{3,3},{2,3},{1,3},{0,3},{0,2}};
-        assertEquals(testMdl.getState(2,2),1); // wit
+        assertEquals(m.getState(2,2),1); // wit
         for (int[] coord: empty)
-            assertEquals(0,testMdl.getState(coord[0],coord[1]));
+            assertEquals(0,m.getState(coord[0],coord[1]));
 
         for (int[] coord: black)
-            assertEquals(-1,testMdl.getState(coord[0],coord[1]));
+            assertEquals(-1,m.getState(coord[0],coord[1]));
 
 
         // {1,0}
-        testMdl = new OthelloModel(4);
-        testMdl.setTurn(0); // black
-        testCtlr = new OthelloController(testMdl);
-        testCtlr.doMove(1,0);
-        assertEquals(testMdl.getTurn(),1);
+        setUp();
+        m.setTurn(0); // black
+        ctrl.doMove(1,0);
+        assertEquals(m.getTurn(),1);
 
 
         empty= new int[][]{{0,0},{0,1},{0,2},{0,3},{1,3},{2,3},{3,3},{3,2},{3,1},{3,0},{2,0}};
         black= new int[][]{{1,0},{1,1},{1,2},{2,1}};
-        assertEquals(testMdl.getState(2,2),1); // wit
+        assertEquals(m.getState(2,2),1); // wit
         for (int[] coord: empty)
-                assertEquals(0,testMdl.getState(coord[0],coord[1]));
+                assertEquals(0,m.getState(coord[0],coord[1]));
 
         for (int[] coord: black)
-            assertEquals(-1,testMdl.getState(coord[0],coord[1]));
+            assertEquals(-1,m.getState(coord[0],coord[1]));
 
 
         // {2,3}
-        testMdl = new OthelloModel(4);
-        testMdl.setTurn(0); // black
-        testCtlr = new OthelloController(testMdl);
-        testCtlr.doMove(2,3);
-        assertEquals(testMdl.getTurn(),1);
+        setUp();
+        m.setTurn(0); // black
+        ctrl.doMove(2,3);
+        assertEquals(m.getTurn(),1);
 
         empty = new int[][]{{0,0},{1,0},{2,0},{3,0},{3,1},{3,2},{3,3},{1,3},{0,3},{0,2},{0,1}};
         black = new int[][]{{2,3},{2,2},{1,2},{2,1}};
-        assertEquals(testMdl.getState(1,1),1); // wit
+        assertEquals(m.getState(1,1),1); // wit
         for (int[] coord: empty)
-            assertEquals(0,testMdl.getState(coord[0],coord[1]));
+            assertEquals(0,m.getState(coord[0],coord[1]));
 
         for (int[] coord: black)
-            assertEquals(-1,testMdl.getState(coord[0],coord[1]));
+            assertEquals(-1,m.getState(coord[0],coord[1]));
 
 
         // {3,2}
-        testMdl = new OthelloModel(4);
-        testMdl.setTurn(0); // black
-        testCtlr = new OthelloController(testMdl);
-        testCtlr.doMove(3,2);
-        assertEquals(testMdl.getTurn(),1);
+        setUp();
+        m.setTurn(0); // black
+        ctrl.doMove(3,2);
+        assertEquals(m.getTurn(),1);
 
         empty = new int[][]{{0,0},{1,0},{2,0},{3,0},{3,1},{3,3},{2,3},{1,3},{0,3},{0,2},{0,1}};
         black = new int[][]{{3,2},{2,2},{1,2},{2,1}};
-        assertEquals(testMdl.getState(1,1),1); // wit
+        assertEquals(m.getState(1,1),1); // wit
         for (int[] coord: empty)
-            assertEquals(0,testMdl.getState(coord[0],coord[1]));
+            assertEquals(0,m.getState(coord[0],coord[1]));
 
         for (int[] coord: black)
-            assertEquals(-1,testMdl.getState(coord[0],coord[1]));
+            assertEquals(-1,m.getState(coord[0],coord[1]));
 
 
     }
@@ -145,6 +139,8 @@ public class OthelloControllerTest {
         ctrl.doMove(1,0);
         ctrl.doMove(0,2);
         assertEquals(0,ctrl.isFinished());
+
+
         //1.1 zwart wint, bord vol
         ctrl.doMove(1,3);
         ctrl.doMove(2,0);
@@ -157,26 +153,58 @@ public class OthelloControllerTest {
         ctrl.doMove(3,3);
         ctrl.doMove(2,3);
         assertEquals(-1,ctrl.isFinished());
+
+
         //1.2 zwart wint, geen geldige zetten meer voor wit en zwart
+
+        OthelloModel allBlackModel = new OthelloModel(boardSize);
+        OthelloController allBlackController = new OthelloController(allBlackModel);
+        for(int i=0; i<boardSize; i++){
+            for(int j=0; j<boardSize; j++){
+                allBlackModel.setState(i, j, -1);
+            }
+        }
+        assertEquals(allBlackController.isFinished(), -1);
+        allBlackModel.setState(0, 0, 0);
+        assertEquals(allBlackController.isFinished(), -1);
+
+
         //2.1 wit wint, bord vol
+        OthelloModel allWhiteModel = new OthelloModel(boardSize);
+        OthelloController allWhiteController = new OthelloController(allWhiteModel);
+        for(int i=0; i<boardSize; i++){
+            for(int j=0; j<boardSize; j++){
+                allWhiteModel.setState(i, j, 1);
+            }
+        }
+        assertEquals(allWhiteController.isFinished(), 1);
+
+
         //2.2 wit wint, geen geldige zetten meer voor wit en zwart
+        allWhiteModel.setState(0, 0, 0);
+        assertEquals(allWhiteController.isFinished(), 1);
+
+
         //3.1 zgelijk, bord vol
-        for(int row: new int[]{0,1}) {
+        for(int row=0;row<boardSize/2;row++) {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,-1);
         }
-        for(int row: new int[]{2,3}) {
+        for(int row=boardSize/2;row<boardSize;row++) {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,1);
         }
         assertEquals(2,ctrl.isFinished());
+
+
         //3.2 gelijk, geen geldige zetten meer voor wit en zwart
-        for(int row: new int[]{0,1}) {
+        for(int row=0;row<boardSize/2;row++) {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,-1);
         }
         m.setState(1,3,0);
-        for(int row: new int[]{2,3}) {
+        m.setState(2,3,0);
+        for(int row=boardSize/2;row<boardSize;row++) {
             for (int col=0;col<boardSize;col++)
                 m.setState(row,col,1);
         }
