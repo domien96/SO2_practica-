@@ -21,7 +21,7 @@ public class OthelloModelTest {
 
     @After
     public void tearDown() throws Exception {
-
+        model=null;
     }
 
     /**
