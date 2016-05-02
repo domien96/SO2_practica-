@@ -2,7 +2,9 @@ package lab6.othello;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -13,7 +15,7 @@ import java.io.Serializable;
 /**
  * Created by domien on 15/04/2016.
  */
-public class OthelloPiece implements Serializable
+public class OthelloPiece implements Serializable, EventHandler<MouseEvent>
 {
     private ObjectProperty<Integer> state = new SimpleObjectProperty<>(0);
     private StackPane cell = new StackPane();
@@ -26,11 +28,7 @@ public class OthelloPiece implements Serializable
         cell.setMinSize(50,50);
         // default grijze cirkel
         cell.setOnMouseClicked((e) -> {
-            if (this.getState() == -1) {
-                this.setState(1);
-            } else {
-                this.setState(getState() - 1);
-            }
+            handle(e);
         }
         );
 
@@ -53,5 +51,14 @@ public class OthelloPiece implements Serializable
 
     public Pane getContent() {
         return cell;
+    }
+
+    @Override
+    public void handle(MouseEvent event) {
+        if (this.getState() == -1) {
+            this.setState(1);
+        } else {
+            this.setState(getState() - 1);
+        }
     }
 }

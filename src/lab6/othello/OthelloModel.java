@@ -1,6 +1,8 @@
 package lab6.othello;
 
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import lab5.othello.*;
 import lab6.othello.exception.BoardIndexOutOfBoundsException;
 import lab6.othello.exception.InvalidBoardSizeException;
@@ -12,6 +14,13 @@ public class OthelloModel {
     private int[][] board;
     // who's turn it is (-1/1) = (black/white)
     private int turn;
+    // Invalidated property
+    private BooleanProperty valid = new SimpleBooleanProperty(true);
+
+    private void invalidated() {
+        valid.setValue(false);
+        valid.setValue(true);
+    }
     
     public OthelloModel(int size) throws InvalidBoardSizeException {
         if (size>0 && size%2 ==0)
@@ -32,8 +41,9 @@ public class OthelloModel {
             board[x][y] = state;
         else
             throw new BoardIndexOutOfBoundsException();
+        invalidated();
     }
-    
+
     public boolean inBounds(int x, int y){
         return x >= 0 && y>=0 && x<size && y<size;
     }
@@ -44,6 +54,7 @@ public class OthelloModel {
     
     public void setTurn(int turn){
         this.turn = turn;
+        invalidated();
     }
     
     public int getSize(){
@@ -77,5 +88,16 @@ public class OthelloModel {
         }
         return false;
     }
-    
+
+    public boolean getValid() {
+        return valid.get();
+    }
+
+    public BooleanProperty validProperty() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid.set(valid);
+    }
 }

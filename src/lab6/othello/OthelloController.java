@@ -84,7 +84,9 @@ public class OthelloController {
                     cur[1] = step*difY+y;
                 }
             }
-            model.setTurn((model.getTurn()+1)%2);
+            int otherTurn = (model.getTurn()+1)%2;
+            if(playerHasPossibleMoves(otherTurn))
+                model.setTurn(otherTurn);
         } else {
             throw new InvalidMoveException();
         }
@@ -130,5 +132,26 @@ public class OthelloController {
         // FROM here : No possible moves for both players anymore.
         int res = (int) Math.signum(countWhite-countBlack); // fancy
         return  res == 0? 2 : res;
+    }
+
+    /**
+     * Kijkt of speler nog geldige zetten heeft.
+     * @param turn : 0 black; 1 wit.
+     * @return
+     */
+    private boolean playerHasPossibleMoves(int turn) {
+        for(int row=0;row<model.getSize();row++) {
+            for(int col=0;col<model.getSize();col++) {
+                if (model.getState(row,col)==0) {
+                    try {
+                        if(isValidMove(row,col,turn))
+                            return true;
+                    } catch (BoardIndexOutOfBoundsException e) {
+                        // should not happen
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
