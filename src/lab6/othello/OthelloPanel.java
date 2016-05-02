@@ -3,6 +3,7 @@ package lab6.othello;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -36,7 +37,8 @@ public class OthelloPanel implements Serializable {
         //model + ctrl
         this.model = new OthelloModel(SIZE);
         this.ctrl = new OthelloController(model);
-        model.validProperty().addListener(new Handler());
+        Handler h = new Handler();
+        model.validProperty().addListener(h);
 
         //counter
         VBox counters = new VBox();
@@ -85,6 +87,7 @@ public class OthelloPanel implements Serializable {
             }
         }
 
+        h.drawBoard();
         // Root pane
         panel.getChildren().addAll(board,counters);
         panel.setPadding(new Insets(25));
@@ -115,12 +118,28 @@ public class OthelloPanel implements Serializable {
     }
 
     private class Handler implements ChangeListener<Boolean> {
+        private void drawBoard() {
+            for(int r=0; r<OthelloPanel.this.size;r++) {
+                for (int c = 0; c < OthelloPanel.this.size; c++) {
+                    if (OthelloPanel.this.board[r][c] != null)
+                        OthelloPanel.this.board[r][c].setState(model.getState(r,c));
+                }
+            }
+        }
 
         @Override
         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-            for(int r=0; r<OthelloPanel.this.size;r++) {
-                for (int c = 0; c < OthelloPanel.this.size; c++) {
-                    OthelloPanel.this.board[r][c].setState(model.getState(r,c));
+            if (newValue) { // enkel indien terug valid
+                drawBoard();
+                int res;
+                if((res = ctrl.isFinished())!=0) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Spel Beëindigd");
+                    alert.setHeaderText(null);
+                    String[] messages = {"Zwart wint!",null,"Wit wint!","Gelijkspel..."};
+                    alert.setContentText(messages[res+1]); // checken voor indexOutOfbounds?
+
+                    alert.showAndWait();
                 }
             }
         }

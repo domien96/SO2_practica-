@@ -68,6 +68,8 @@ public class OthelloController {
     
     public void doMove(int x, int y) throws InvalidMoveException, BoardIndexOutOfBoundsException {
         if(isValidMove(x,y)) {
+            model.setValid(false);
+            /////////////////
             int currentPlayerState = 2*model.getTurn()-1; // 1->1 en 0->-1
 
             //beetje code duplicatie
@@ -87,13 +89,16 @@ public class OthelloController {
             int otherTurn = (model.getTurn()+1)%2;
             if(playerHasPossibleMoves(otherTurn))
                 model.setTurn(otherTurn);
+
+            /////////////////
+            model.setValid(true);
         } else {
             throw new InvalidMoveException();
         }
     }
 
     // Beide coordinaten moeten inbounds zijn. Als dit niet zo is, gebeurt er niets!
-    public void changeLine(int xFrom, int yFrom, int xTo, int yTo, int state) throws BoardIndexOutOfBoundsException {
+    private void changeLine(int xFrom, int yFrom, int xTo, int yTo, int state) throws BoardIndexOutOfBoundsException {
         if(model.inBounds(xFrom,yFrom) && model.inBounds(xTo,yTo)) {
             // Stepsize voor X en Y berekenen.
             int difX = (int) Math.signum(xTo-xFrom),
