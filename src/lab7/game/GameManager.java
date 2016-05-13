@@ -39,14 +39,14 @@ public class GameManager extends EventPublisher implements EventListener {
     }
 
     public void sendInvitation() {
-        publishEvent(new GameInvitationEvent());
+        publishEvent(new GameInvitationEvent("new game invitation"));
     }
 
     public void acceptInvitation() {
-        publishEvent(new GameInviteAcceptedEvent());
+        publishEvent(new GameInviteAcceptedEvent("challenge accepted"));
     }
 
     public void declineInvitation() {
-        publishEvent(new GameInviteDeclinedEvent());
+        publishEvent(new GameInviteDeclinedEvent("challenge declined"));
     }
 }

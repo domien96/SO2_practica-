@@ -7,7 +7,9 @@ import eventbroker.Event;
  */
 public class GameInviteDeclinedEvent extends Event {
 
-    public GameInviteDeclinedEvent(String type, String message) {
-        super(type, message);
+    private static final String TYPE = "Declined";
+
+    public GameInviteDeclinedEvent(String message) {
+        super(TYPE, message);
     }
 }
