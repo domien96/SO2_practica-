@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import lab7.game.events.GameInvitationEvent;
 import lab7.game.events.GameInviteAcceptedEvent;
 import lab7.game.events.GameInviteDeclinedEvent;
+import lab7.game.exceptions.GameLoadException;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -20,21 +21,40 @@ public class GameManager extends EventPublisher implements EventListener {
 
     GameInterface loadedGame;
 
-    public void loadGame(File gameFile) {
+    public void loadGame(File gameFile) throws GameLoadException {
         if(gameFile==null)
             return;
         URLClassLoader ldr;
         try {
             ldr = URLClassLoader.newInstance(new URL[] {gameFile.toURI().toURL()});
         } catch (MalformedURLException e) {
-            writeConsole("Something went wrong.");
-            e.printStackTrace();
-            return;
+            throw new GameLoadException();
         }
+
+        try {
+            Class othello = ldr.loadClass("lab5.othello.Othello");
+            lab5.game.GameInterface game = (lab5.game.GameInterface) othello.newInstance();
+            loadedGame = game.getGamePanel();
+
+            // Zonder cast naar GameInterface
+            //Method m = othello.getMethod("getGamePanel");
+            //showPane((Pane) m.invoke(othello.newInstance()));
+        } catch (ClassNotFoundException e) {
+            throw new GameLoadException("Jar does not follow the conventions: Jar has to contain a class with the same name.");
+        } catch (InstantiationException e) {
+            throw new GameLoadException("Class loaded, but no default constructor.");
+        } catch (IllegalAccessException e) {
+            throw new GameLoadException("Class loaded, but class or constructor cannot be accessed.");
+        } catch (ClassCastException e) {
+            throw new GameLoadException("Class loaded, but does not implement GameInterface.");
+        }
+    }
     }
 
     public GameInterface getLoadedGame() {
-        return null;
+        if(loadedGame==null)
+            throw new NoGameLoadedException();
+        return loadedGame;
     }
 
     @Override

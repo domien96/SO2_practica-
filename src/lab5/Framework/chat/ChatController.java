@@ -166,43 +166,7 @@ public class ChatController extends EventPublisher {
         }
     }
 
-    private void loadGame(Path path) {
-        if(path==null)
-            return;
-        URLClassLoader ldr;
-        try {
-            ldr = URLClassLoader.newInstance(new URL[] {path.toUri().toURL()});
-        } catch (MalformedURLException e) {
-            writeConsole("Something went wrong.");
-            e.printStackTrace();
-            return;
-        }
 
-        try {
-            Class othello = ldr.loadClass("lab5.othello.Othello");
-            GameInterface game = (GameInterface) othello.newInstance();
-            showPane(game.getGamePanel());
-
-            // Zonder cast naar GameInterface
-            //Method m = othello.getMethod("getGamePanel");
-            //showPane((Pane) m.invoke(othello.newInstance()));
-        } catch (ClassNotFoundException e) {
-            writeConsole("Jar does not follow the conventions: Jar has to contain a class with the same name.");
-            e.printStackTrace();
-            return;
-        } catch (InstantiationException e) {
-            writeConsole("Class loaded, but no default constructor.");
-            e.printStackTrace();
-            return;
-        } catch (IllegalAccessException e) {
-            writeConsole("Class loaded, but class or constructor cannot be accessed.");
-            e.printStackTrace();
-            return;
-        } catch (ClassCastException e) {
-            writeConsole("Class loaded, but does not implement GameInterface.");
-            return;
-        }
-    }
 
     private void showPane(Pane gamePanel) {
         this.gamePanel.add(gamePanel,0,0);
