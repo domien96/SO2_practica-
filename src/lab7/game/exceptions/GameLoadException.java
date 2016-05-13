@@ -8,4 +8,8 @@ public class GameLoadException extends Exception {
     public GameLoadException() {
         super("Error while loading game");
     }
+
+    public GameLoadException(String s) {
+        super(s);
+    }
 }

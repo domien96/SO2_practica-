@@ -8,6 +8,7 @@ import lab7.game.events.GameInvitationEvent;
 import lab7.game.events.GameInviteAcceptedEvent;
 import lab7.game.events.GameInviteDeclinedEvent;
 import lab7.game.exceptions.GameLoadException;
+import lab7.game.exceptions.NoGameLoadedException;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -19,7 +20,7 @@ import java.net.URLClassLoader;
  */
 public class GameManager extends EventPublisher implements EventListener {
 
-    GameInterface loadedGame;
+    private GameInterface loadedGame;
 
     public void loadGame(File gameFile) throws GameLoadException {
         if(gameFile==null)
@@ -33,8 +34,8 @@ public class GameManager extends EventPublisher implements EventListener {
 
         try {
             Class othello = ldr.loadClass("lab5.othello.Othello");
-            lab5.game.GameInterface game = (lab5.game.GameInterface) othello.newInstance();
-            loadedGame = game.getGamePanel();
+            GameInterface game = (GameInterface) othello.newInstance();
+            loadedGame = game;
 
             // Zonder cast naar GameInterface
             //Method m = othello.getMethod("getGamePanel");
@@ -49,9 +50,8 @@ public class GameManager extends EventPublisher implements EventListener {
             throw new GameLoadException("Class loaded, but does not implement GameInterface.");
         }
     }
-    }
 
-    public GameInterface getLoadedGame() {
+    public GameInterface getLoadedGame() throws NoGameLoadedException {
         if(loadedGame==null)
             throw new NoGameLoadedException();
         return loadedGame;
@@ -70,7 +70,7 @@ public class GameManager extends EventPublisher implements EventListener {
         });
     }
 
-    public void sendInvitation() {
+    public void sendInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInvitationEvent("new game invitation"));
         } else {
@@ -78,7 +78,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
     }
 
-    public void acceptInvitation() {
+    public void acceptInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInviteAcceptedEvent("challenge accepted"));
         } else {
@@ -86,7 +86,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
     }
 
-    public void declineInvitation() {
+    public void declineInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInviteDeclinedEvent("challenge declined"));
         } else {
