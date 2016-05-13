@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import lab7.game.events.GameInvitationEvent;
 import lab7.game.events.GameInviteAcceptedEvent;
 import lab7.game.events.GameInviteDeclinedEvent;
+import lab7.game.exceptions.NoGameLoadedException;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -50,7 +51,7 @@ public class GameManager extends EventPublisher implements EventListener {
         });
     }
 
-    public void sendInvitation() {
+    public void sendInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInvitationEvent("new game invitation"));
         } else {
@@ -58,7 +59,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
     }
 
-    public void acceptInvitation() {
+    public void acceptInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInviteAcceptedEvent("challenge accepted"));
         } else {
@@ -66,7 +67,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
     }
 
-    public void declineInvitation() {
+    public void declineInvitation() throws NoGameLoadedException {
         if (loadedGame != null) {
             publishEvent(new GameInviteDeclinedEvent("challenge declined"));
         } else {
