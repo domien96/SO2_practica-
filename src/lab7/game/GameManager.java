@@ -3,6 +3,7 @@ package lab7.game;
 import eventbroker.Event;
 import eventbroker.EventListener;
 import eventbroker.EventPublisher;
+import javafx.application.Platform;
 import lab7.game.events.GameInvitationEvent;
 import lab7.game.events.GameInviteAcceptedEvent;
 import lab7.game.events.GameInviteDeclinedEvent;
@@ -35,13 +36,15 @@ public class GameManager extends EventPublisher implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
-        if (event instanceof GameInvitationEvent) {
+        Platform.runLater( () -> {
+            if (event instanceof GameInvitationEvent) {
 
-        } else if (event instanceof GameInviteAcceptedEvent) {
+            } else if (event instanceof GameInviteAcceptedEvent) {
 
-        } else if (event instanceof GameInviteDeclinedEvent) {
+            } else if (event instanceof GameInviteDeclinedEvent) {
 
-        }
+            }
+        });
     }
 
     public void sendInvitation() {
