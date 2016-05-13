@@ -35,7 +35,13 @@ public class GameManager extends EventPublisher implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
-        if (event instanceof Game)
+        if (event instanceof GameInvitationEvent) {
+
+        } else if (event instanceof GameInviteAcceptedEvent) {
+
+        } else if (event instanceof GameInviteDeclinedEvent) {
+
+        }
     }
 
     public void sendInvitation() {
