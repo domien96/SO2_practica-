@@ -17,6 +17,9 @@ import java.net.URLClassLoader;
  * Created by domien on 7/05/2016.
  */
 public class GameManager extends EventPublisher implements EventListener {
+
+    GameInterface loadedGame;
+
     public void loadGame(File gameFile) {
         if(gameFile==null)
             return;
@@ -48,14 +51,26 @@ public class GameManager extends EventPublisher implements EventListener {
     }
 
     public void sendInvitation() {
-        publishEvent(new GameInvitationEvent("new game invitation"));
+        if (loadedGame != null) {
+            publishEvent(new GameInvitationEvent("new game invitation"));
+        } else {
+            throw new NoGameLoadedException();
+        }
     }
 
     public void acceptInvitation() {
-        publishEvent(new GameInviteAcceptedEvent("challenge accepted"));
+        if (loadedGame != null) {
+            publishEvent(new GameInviteAcceptedEvent("challenge accepted"));
+        } else {
+            throw new NoGameLoadedException();
+        }
     }
 
     public void declineInvitation() {
-        publishEvent(new GameInviteDeclinedEvent("challenge declined"));
+        if (loadedGame != null) {
+            publishEvent(new GameInviteDeclinedEvent("challenge declined"));
+        } else {
+            throw new NoGameLoadedException();
+        }
     }
 }
