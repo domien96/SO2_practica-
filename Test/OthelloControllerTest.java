@@ -151,7 +151,7 @@ public class OthelloControllerTest {
         ctrl.doMove(0,3);
         ctrl.doMove(3,3);
         ctrl.doMove(3,0);
-        m.setState(2,3,1); // geen zteten meer: bord opvullen.
+        ctrl.doMove(2,3); // geen zteten meer voor wit: beurt aan zwart.
         assertEquals(-1,ctrl.isFinished());
 
 
