@@ -1,9 +1,12 @@
 package lab7.game;
 
 import eventbroker.Event;
+import eventbroker.EventBroker;
 import eventbroker.EventListener;
 import eventbroker.EventPublisher;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import lab7.game.events.GameInvitationEvent;
 import lab7.game.events.GameInviteAcceptedEvent;
 import lab7.game.events.GameInviteDeclinedEvent;
@@ -22,6 +25,16 @@ public class GameManager extends EventPublisher implements EventListener {
 
     private GameInterface loadedGame;
 
+    private GameManager() {
+        EventBroker.getEventBroker().addEventListener("Invitation",this);
+        EventBroker.getEventBroker().addEventListener("Accept",this);
+        EventBroker.getEventBroker().addEventListener("Declined",this);
+    }
+
+    public final static GameManager mng = new GameManager();
+
+    public static GameManager getGameManager() { return mng; }
+
     public void loadGame(File gameFile) throws GameLoadException {
         if(gameFile==null)
             return;
@@ -33,7 +46,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
 
         try {
-            Class othello = ldr.loadClass("lab5.othello.Othello");
+            Class othello = ldr.loadClass("lab7.othello.Othello");
             GameInterface game = (GameInterface) othello.newInstance();
             loadedGame = game;
 
@@ -61,11 +74,33 @@ public class GameManager extends EventPublisher implements EventListener {
     public void handleEvent(Event event) {
         Platform.runLater( () -> {
             if (event instanceof GameInvitationEvent) {
-
+                Alert l = new Alert(Alert.AlertType.CONFIRMATION);
+                ButtonType accept = new ButtonType("ok"), decline = new ButtonType("nene");
+                l.getButtonTypes().clear();
+                l.getButtonTypes().addAll(accept,decline);
+                if(l.showAndWait().get()==accept) {
+                    try {
+                        acceptInvitation();
+                        loadedGame.startGame(1);
+                    } catch (NoGameLoadedException e) {
+                        declineInvitation();
+                    }
+                } else {
+                        declineInvitation();
+                }
             } else if (event instanceof GameInviteAcceptedEvent) {
-
+                Alert l = new Alert(Alert.AlertType.INFORMATION);
+                l.setHeaderText("Other player Accepted");
+                l.showAndWait();
+                if(loadedGame!=null){
+                    loadedGame.startGame(0);}
+                else {
+                    System.err.println("blabla");
+                }
             } else if (event instanceof GameInviteDeclinedEvent) {
-
+                Alert l = new Alert(Alert.AlertType.INFORMATION);
+                l.setHeaderText("Other player Declined");
+                l.showAndWait();
             }
         });
     }
@@ -86,11 +121,7 @@ public class GameManager extends EventPublisher implements EventListener {
         }
     }
 
-    public void declineInvitation() throws NoGameLoadedException {
-        if (loadedGame != null) {
-            publishEvent(new GameInviteDeclinedEvent("challenge declined"));
-        } else {
-            throw new NoGameLoadedException();
-        }
+    public void declineInvitation() {
+        publishEvent(new GameInviteDeclinedEvent("challenge declined"));
     }
 }

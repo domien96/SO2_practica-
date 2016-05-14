@@ -1,5 +1,6 @@
 package lab7.othello;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -135,7 +136,7 @@ public class OthelloPanel implements Serializable {
         @Override
         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
             if (newValue) { // enkel indien terug valid
-                drawBoard();
+                Platform.runLater(() ->drawBoard());
                 int res;
                 if((res = ctrl.isFinished())!=0) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

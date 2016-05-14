@@ -1,6 +1,7 @@
 package lab7.othello;
 
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import lab7.othello.exception.BoardIndexOutOfBoundsException;
@@ -90,6 +91,6 @@ public class OthelloModel {
     }
 
     public void setValid(boolean valid) {
-        this.valid.set(valid);
+        Platform.runLater( () -> this.valid.set(valid));
     }
 }

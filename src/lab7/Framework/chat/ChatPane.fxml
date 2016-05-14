@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab7.Framework.chat.ChatController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openConnectDialog" text="Connect..." />
+                  <MenuItem mnemonicParsing="false" onAction="#chooseGame" text="Choose a game" />
+                <MenuItem mnemonicParsing="false" onAction="#startGame" text="Start a game" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="264.0" prefWidth="394.0" vvalue="1.0d">
+              <content>
+                <TextArea fx:id="content" prefHeight="262.0" prefWidth="388.0" />
+              </content>
+            </ScrollPane>
+            <HBox alignment="CENTER_LEFT" layoutY="263.0" prefHeight="61.0" prefWidth="600.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="inputfield" onAction="#sendMessage" prefHeight="50.0" prefWidth="306.0" />
+                  <Button mnemonicParsing="false" onAction="#sendMessage" text="Send">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <GridPane fx:id="gamePanel">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </center>
+</BorderPane>

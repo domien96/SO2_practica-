@@ -1,4 +1,4 @@
-package lab5.Framework.chat;
+package lab7.Framework.chat;
 
 import eventbroker.Event;
 import eventbroker.EventBroker;
@@ -13,14 +13,15 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import lab5.main.Main;
-import lab5.game.GameInterface;
+import lab7.main.Main;
+import lab7.game.GameManager;
+import lab7.game.exceptions.GameLoadException;
+import lab7.game.exceptions.NoGameLoadedException;
 import network.Network;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.nio.file.Path;
 import java.util.Optional;
 
 /**
@@ -76,11 +77,11 @@ public class ChatController extends EventPublisher {
     }
 
     public void sendInfoMessage(String msg) {
-        publishEvent(new ChatMessage("chatmessage","<Info>",msg));
+        publishEvent(new ChatMessage("chatmessage","<Info>",msg+"\n"));
     }
 
     public void writeConsole(String msg) {
-        model.addMessage(msg);
+        model.addMessage(msg+"\n");
     }
 
     /*****************************
@@ -142,6 +143,7 @@ public class ChatController extends EventPublisher {
             network = new Network();
             Main.setNetwork(network);
             network.connect(address, poort);
+            server = false;
             return true;
         } catch (UnknownHostException e) {
             EventBroker.getEventBroker().removeEventListener(network);
@@ -156,51 +158,33 @@ public class ChatController extends EventPublisher {
     }
 
     /************GAME************/
+    boolean server = true; //true indien server, false indien de client.
+
     public void chooseGame(ActionEvent e) {
         FileChooser chsr = new FileChooser();
         chsr.setInitialDirectory(new File(System.getProperty("user.dir")));
         chsr.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Java Archive","*.jar"));
         File path = chsr.showOpenDialog(content.getScene().getWindow());
         if(path != null) {
-            loadGame(path.toPath());
+            GameManager mng = GameManager.getGameManager();
+            try {
+                mng.loadGame(path);
+                mng.getLoadedGame().startGame(-2); // ongeldige beurt om te blokkeren totdat sel is gestart.
+                showPane(mng.getLoadedGame().getGamePanel());
+            } catch (GameLoadException e1) {
+                writeConsole(e1.getMessage());
+            } catch (NoGameLoadedException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
-    private void loadGame(Path path) {
-        if(path==null)
-            return;
-        URLClassLoader ldr;
+    public void startGame(ActionEvent e) {
         try {
-            ldr = URLClassLoader.newInstance(new URL[] {path.toUri().toURL()});
-        } catch (MalformedURLException e) {
-            writeConsole("Something went wrong.");
-            e.printStackTrace();
-            return;
-        }
-
-        try {
-            Class othello = ldr.loadClass("lab5.othello.Othello");
-            GameInterface game = (GameInterface) othello.newInstance();
-            showPane(game.getGamePanel());
-
-            // Zonder cast naar GameInterface
-            //Method m = othello.getMethod("getGamePanel");
-            //showPane((Pane) m.invoke(othello.newInstance()));
-        } catch (ClassNotFoundException e) {
-            writeConsole("Jar does not follow the conventions: Jar has to contain a class with the same name.");
-            e.printStackTrace();
-            return;
-        } catch (InstantiationException e) {
-            writeConsole("Class loaded, but no default constructor.");
-            e.printStackTrace();
-            return;
-        } catch (IllegalAccessException e) {
-            writeConsole("Class loaded, but class or constructor cannot be accessed.");
-            e.printStackTrace();
-            return;
-        } catch (ClassCastException e) {
-            writeConsole("Class loaded, but does not implement GameInterface.");
-            return;
+            GameManager mng = GameManager.getGameManager();
+            mng.sendInvitation();
+        } catch (NoGameLoadedException e1) {
+            writeConsole(e1.getMessage());
         }
     }
 
